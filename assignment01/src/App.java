@@ -5,8 +5,10 @@ public class App {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         Camp myCamp = new Camp();
+        System.out.println("COVID Camp Software");
         myCamp.getPatients();
         while (myCamp.isNotEmpty()) {
+            System.out.print("Enter query number : ");
             int query = s.nextInt();
             switch (query) {
                 case 1:
@@ -51,6 +53,8 @@ public class App {
                     System.out.println("Wrong input");
             }
         }
+        System.out.println("All the patients have been admitted in health care institutes or have been deleted.");
+        System.out.println("Ending the program");
     }
 
 

@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class HealthCareInstitute {
@@ -123,7 +122,7 @@ public class HealthCareInstitute {
                 '}';
     }
 
-    public HealthCareInstitute(int oxygenCriteria, float temperatureCriteria, String name, int numberOfBedsTotal, ArrayList<Patient> patients) {
+    public HealthCareInstitute(int oxygenCriteria, float temperatureCriteria, String name, int numberOfBedsTotal) {
         this.oxygenCriteria = oxygenCriteria;
         this.temperatureCriteria = temperatureCriteria;
         this.name = name;
@@ -131,8 +130,6 @@ public class HealthCareInstitute {
         this.numberOfBedsUnoccupied = numberOfBedsTotal;
         this.patientList = new ArrayList<>();
         this.status = true;
-        this.addPatients(patients);
-
     }
 
     public void addPatients(ArrayList<Patient> patients) {
@@ -164,7 +161,7 @@ public class HealthCareInstitute {
 
     private PatientInfo getRecoveryDateInput(Patient obj) {
         Scanner s = new Scanner(System.in);
-        System.out.println("Enter recovery days for patient ID " + obj.getId());
+        System.out.print("Enter recovery days for patient ID " + obj.getId() + " : ");
         int recoveryDays = s.nextInt();
         return new PatientInfo(obj, recoveryDays);
     }
@@ -174,14 +171,14 @@ public class HealthCareInstitute {
         System.out.println(this.getName());
         System.out.println("Oxygen Level >= "+ this.getOxygenCriteria());
         System.out.println("Temperature Level <= " + this.getTemperatureCriteria());
-        System.out.println("Available Beds : " + this.getNumberOfBedsTotal());
+        System.out.println("Available Beds : " + this.getNumberOfBedsUnoccupied());
         String statusPrint = this.getStatus() ? "Open" : "Closed";
         System.out.println("Admission Status : " + statusPrint);
     }
 
     public void printPatients(){
         //name and recovery days
-        System.out.println("Name\t\tID\tRecovery Days");
+        System.out.println("Name\tID\tRecovery Days");
         for(PatientInfo patientGroup: patientList){
             System.out.println(patientGroup.getPatientName() + "\t\t" + patientGroup.getPatientId() + "\t" + patientGroup.getRecoveryDays());
         }
