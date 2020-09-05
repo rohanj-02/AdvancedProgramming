@@ -1,0 +1,35 @@
+Patient
+    Class Attributes
+        Count to generate id
+    Attributes
+        name
+        age
+        oxygen level(90-100)
+        body temperature
+        unique id
+        bool admissionStatus
+        admittingInstitute
+    Methods
+        registerPatient()
+        deletePatient()        
+
+HealthCareInstitutes
+    Attributes
+        OcygenCriteria<>
+        TempCriteria<>
+        Name<>
+        Status<>
+        NumberofBedstotal<>
+        NumberofBedsUnoccupied<>
+        PatientInfo class - Patient and recovery date
+
+    Methods 
+        admitPatient()<>
+        storeRecoveryDate()<>
+        changeStatus()
+        deleteHealthCareInstitute()
+
+App
+    Methods
+        addInstitute()
+            name, criteria, beds
