@@ -1,62 +1,34 @@
 
-
+// DONE
 public class Patient {
     private static int COUNT = 0;
-    private int id;
-    private String name;
-    private int age;
-    private int oxygenLevel;
-    private float bodyTemperature;
+    private final int id;
+    private final String name;
+    private final int age;
+    private final int oxygenLevel;
+    private final float bodyTemperature;
     private boolean admissionStatus;
     private HealthCareInstitute admittingInstitute;
 
 
-    public static int getCOUNT() {
-        return COUNT;
-    }
-
-    public static void setCOUNT(int COUNT) {
-        Patient.COUNT = COUNT;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getAge() {
         return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public int getOxygenLevel() {
         return oxygenLevel;
     }
 
-    public void setOxygenLevel(int oxygenLevel) {
-        this.oxygenLevel = oxygenLevel;
-    }
-
     public float getBodyTemperature() {
         return bodyTemperature;
-    }
-
-    public void setBodyTemperature(float bodyTemperature) {
-        this.bodyTemperature = bodyTemperature;
     }
 
     public boolean isAdmissionStatus() {
@@ -73,7 +45,7 @@ public class Patient {
 
     public void setAdmittingInstitute(HealthCareInstitute admittingInstitute) {
         this.admittingInstitute = admittingInstitute;
-        this.admissionStatus = true;
+        this.setAdmissionStatus(true);
     }
 
     @Override
@@ -101,11 +73,11 @@ public class Patient {
     }
 
     public boolean matchesOxygenCriteria(int lowestOxygenLevel) {
-        return this.oxygenLevel >= lowestOxygenLevel;
+        return this.getOxygenLevel() >= lowestOxygenLevel;
     }
 
     public boolean matchesTemperatureCriteria(float highestTemperatureLevel) {
-        return this.bodyTemperature <= highestTemperatureLevel;
+        return this.getBodyTemperature() <= highestTemperatureLevel;
     }
 
     public String getInstituteName() {

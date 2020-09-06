@@ -1,26 +1,18 @@
 import java.util.Scanner;
 
-public class App {
+public class Main {
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         Camp myCamp = new Camp();
         System.out.println("COVID Camp Software");
-        myCamp.getPatients();
+        myCamp.addPatients();
         while (myCamp.isNotEmpty()) {
             System.out.print("Enter query number : ");
             int query = s.nextInt();
             switch (query) {
                 case 1:
-                    System.out.print("Enter name of institute : ");
-                    String name = s.next();
-                    System.out.print("Enter temperature criteria : ");
-                    float temp = s.nextFloat();
-                    System.out.print("Enter oxygen criteria : ");
-                    int oxygen = s.nextInt();
-                    System.out.print("Enter number of available beds : ");
-                    int beds = s.nextInt();
-                    myCamp.addInstitute(name, oxygen, temp, beds);
+                    myCamp.addInstitute();
                     break;
                 case 2:
                     myCamp.removeAdmittedPatients();

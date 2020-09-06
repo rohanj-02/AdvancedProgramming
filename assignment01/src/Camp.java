@@ -4,42 +4,66 @@ import java.util.Scanner;
 public class Camp {
     private ArrayList<Patient> patients;
     private ArrayList<HealthCareInstitute> institutes;
-    private boolean isEmpty;
+
+    public ArrayList<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(ArrayList<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public ArrayList<HealthCareInstitute> getInstitutes() {
+        return institutes;
+    }
+
+    public void setInstitutes(ArrayList<HealthCareInstitute> institutes) {
+        this.institutes = institutes;
+    }
 
     public Camp() {
         this.patients = new ArrayList<>();
         this.institutes = new ArrayList<>();
     }
 
-    public void getPatients(){
+    public void addPatients() {
         System.out.print("Enter number of patients : ");
         Scanner s = new Scanner(System.in);
         int numberOfPatients = s.nextInt();
-        for(int i = 0; i < numberOfPatients; i++) {
+        for (int i = 0; i < numberOfPatients; i++) {
             System.out.print("Enter details of patient " + (i + 1) + " : ");
             String name = s.next();
             float temp = s.nextFloat();
             int oxygenLevel = s.nextInt();
             int age = s.nextInt();
-            this.patients.add(new Patient(name, age, oxygenLevel, temp));
-            System.out.println("Patient " + (i+1) + " added.");
+            this.getPatients().add(new Patient(name, age, oxygenLevel, temp));
+            System.out.println("Patient " + (i + 1) + " added.");
         }
     }
 
-    public void addInstitute(String name, int oxygen, float temp, int beds) {
+    public void addInstitute() {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Enter name of institute : ");
+        String name = s.next();
+        System.out.print("Enter temperature criteria : ");
+        float temp = s.nextFloat();
+        System.out.print("Enter oxygen criteria : ");
+        int oxygen = s.nextInt();
+        System.out.print("Enter number of available beds : ");
+        int beds = s.nextInt();
         HealthCareInstitute newInstitute = new HealthCareInstitute(oxygen, temp, name, beds);
         newInstitute.display();
-        newInstitute.addPatients(this.patients);
+        newInstitute.addPatients(this.getPatients());
         newInstitute.printPatients();
-        this.institutes.add(newInstitute);
+        this.getInstitutes().add(newInstitute);
     }
 
     public void removeAdmittedPatients() {
         ArrayList<Patient> newList = new ArrayList<>();
         boolean flag = false;
-        for (Patient patient : patients) {
+        for (Patient patient : this.getPatients()) {
             if (patient.isAdmissionStatus()) {
-                if(!flag){
+                if (!flag) {
                     System.out.println("Deleted accounts with ID : ");
                     flag = true;
                 }
@@ -48,8 +72,8 @@ public class Camp {
                 newList.add(patient);
             }
         }
-        this.patients = newList;
-        if(!flag){
+        this.setPatients(newList);
+        if (!flag) {
             System.out.println("No patients were admitted in health care institutes!");
         }
     }
@@ -57,28 +81,27 @@ public class Camp {
     public void removeClosedInstitutes() {
         ArrayList<HealthCareInstitute> newList = new ArrayList<>();
         boolean flag = false;
-        for(HealthCareInstitute institute: institutes){
-            if(institute.getStatus()){
+        for (HealthCareInstitute institute : this.getInstitutes()) {
+            if (institute.getStatus()) {
                 newList.add(institute);
-            }
-            else{
-                if(!flag){
+            } else {
+                if (!flag) {
                     System.out.println("Deleted Institutes : ");
                     flag = true;
                 }
                 System.out.println(institute.getName());
             }
         }
-        this.institutes = newList;
-        if(!flag){
+        this.setInstitutes(newList);
+        if (!flag) {
             System.out.println("No institutes have closed status!");
         }
     }
 
     public void getPatientsInCamp() {
         int count = 0;
-        for(Patient patient: patients){
-            if(!patient.isAdmissionStatus()){
+        for (Patient patient : this.getPatients()) {
+            if (!patient.isAdmissionStatus()) {
                 count++;
             }
         }
@@ -87,8 +110,8 @@ public class Camp {
 
     public void getOpenInstitutes() {
         int count = 0;
-        for(HealthCareInstitute institute: institutes){
-            if(institute.getStatus()){
+        for (HealthCareInstitute institute : this.getInstitutes()) {
+            if (institute.getStatus()) {
                 count++;
             }
         }
@@ -97,52 +120,52 @@ public class Camp {
 
     public void displayInstitute(String name) {
         boolean flag = false;
-        for(HealthCareInstitute institute: institutes){
-            if(institute.getName().equals(name)){
+        for (HealthCareInstitute institute : this.getInstitutes()) {
+            if (institute.getName().equals(name)) {
                 institute.display();
                 flag = true;
             }
         }
-        if(!flag){
+        if (!flag) {
             System.out.println("The Institute does not exist or has been deleted.");
         }
     }
 
     public void displayPatient(int id) {
         boolean flag = false;
-        for(Patient patient: patients){
-            if(patient.getId() == id){
+        for (Patient patient : this.getPatients()) {
+            if (patient.getId() == id) {
                 System.out.println(patient);
                 flag = true;
             }
         }
-        if(!flag){
+        if (!flag) {
             System.out.println("Patient with id " + id + " does not exist or has been deleted.");
         }
     }
 
     public void displayAllPatients() {
-        for(Patient patient: patients){
+        for (Patient patient : this.getPatients()) {
             System.out.println(patient.getId() + "   " + patient.getName());
         }
     }
 
-    public void displayPatientsInInstitute(String name){
+    public void displayPatientsInInstitute(String name) {
         boolean flag = false;
-        for(HealthCareInstitute institute: institutes){
-            if(institute.getName().equals(name)){
+        for (HealthCareInstitute institute : getInstitutes()) {
+            if (institute.getName().equals(name)) {
                 institute.printPatients();
                 flag = true;
             }
         }
-        if(!flag){
+        if (!flag) {
             System.out.println("The institute does not exist or has been deleted.");
         }
     }
 
-    public boolean isNotEmpty(){
-        for(Patient patient: patients){
-            if(!patient.isAdmissionStatus()) {
+    public boolean isNotEmpty() {
+        for (Patient patient : this.getPatients()) {
+            if (!patient.isAdmissionStatus()) {
                 return true;
             }
         }
