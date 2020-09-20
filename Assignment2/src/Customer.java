@@ -1,10 +1,21 @@
 import java.util.ArrayList;
 
-public class Customer extends User{
+public class Customer {
+
+    private Wallet wallet;
     private String name;
-    private int wallet;
-    private ArrayList<FoodItem> currentOrder;
-    private ArrayList<ArrayList<FoodItem>> pastOrders;
+    private String address;
+    private Order currentOrder;
+    private ArrayList<Order> pastOrders;
+    private Restaurant restaurant;
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
 
     public String getName() {
         return name;
@@ -14,46 +25,48 @@ public class Customer extends User{
         this.name = name;
     }
 
-    public int getWallet() {
-        return wallet;
+    public String getAddress() {
+        return address;
     }
 
-    public void setWallet(int wallet) {
-        this.wallet = wallet;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public ArrayList<FoodItem> getCurrentOrder() {
+    public Order getCurrentOrder() {
         return currentOrder;
     }
 
-    public void setCurrentOrder(ArrayList<FoodItem> currentOrder) {
+    public void setCurrentOrder(Order currentOrder) {
         this.currentOrder = currentOrder;
     }
 
-    public ArrayList<ArrayList<FoodItem>> getPastOrders() {
+    public ArrayList<Order> getPastOrders() {
         return pastOrders;
     }
 
-    public void setPastOrders(ArrayList<ArrayList<FoodItem>> pastOrders) {
+    public void setPastOrders(ArrayList<Order> pastOrders) {
         this.pastOrders = pastOrders;
     }
 
-    public void deductMoneyFromWallet(int x){
-        this.setWallet(this.getWallet() - x);
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void deductMoneyFromRewardPoints(int x){
-        this.setRewardPoints(this.getRewardPoints() - x);
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
-    public Customer(String name) {
-        this.name = name;
-        this.wallet = 1000;
-        this.rewardPoints = 0;
-        this.currentOrder = new ArrayList<>();
-        this.pastOrders = new ArrayList<>();
+    public Customer(String name, String address) {
+        this.setName(name);
+        this.setAddress(address);
+        this.setPastOrders(new ArrayList<>());
+        this.setWallet(new Wallet(1000));
+        this.setRestaurant(null);
+        this.setCurrentOrder(null);
     }
 
-    public void addFoodItemToCurrentOrder(){}
-    public void checkout(){}
+    public void selectRestaurant() {
+
+    }
 }

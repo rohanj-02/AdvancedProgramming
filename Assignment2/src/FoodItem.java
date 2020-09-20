@@ -4,7 +4,7 @@ public class FoodItem {
     private int quantity;
     private String category;
     private int offer;
-    final private Restaurant restaurant;
+    final private String restaurantName;
     final private int id;
     static private int COUNT = 0;
 
@@ -48,8 +48,8 @@ public class FoodItem {
         this.offer = offer;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public String getRestaurant() {
+        return restaurantName;
     }
 
     public int getId() {
@@ -59,7 +59,7 @@ public class FoodItem {
     @Override
     public String toString() {
         return this.getId() + " " +
-                this.getRestaurant().getName() + " - " +
+                this.getRestaurant() + " - " +
                 this.getName() + " " +
                 this.getPrice() + " " +
                 this.getQuantity() + " " +
@@ -67,13 +67,13 @@ public class FoodItem {
                 this.getCategory();
     }
 
-    public FoodItem(String name, int price, int quantity, String category, int offer, Restaurant restaurant) {
+    public FoodItem(String name, int price, int quantity, String category, int offer, String restaurantName) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.category = category;
         this.offer = offer;
-        this.restaurant = restaurant;
+        this.restaurantName = restaurantName;
         this.id = COUNT;
         COUNT++;
     }

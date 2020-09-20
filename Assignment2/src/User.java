@@ -1,20 +1,5 @@
-public class User {
-    int rewardPoints;
-
-    public void addRewardPoints(int x){
-        this.setRewardPoints(this.getRewardPoints() + x);
-    }
-
-    public int getRewardPoints() {
-        return this.rewardPoints;
-    }
-
-    public void setRewardPoints(int rewardPoints) {
-        this.rewardPoints = rewardPoints;
-    }
-
-    public User(){
-        this.rewardPoints = 0;
-    }
+public interface User {
+    public void displayMenu();
+    public void addRewardPoints(float x);
 
 }
