@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Restaurant {
+public class Restaurant implements User {
     private String name;
     private String address;
     private int numberOfOrders;
@@ -57,7 +57,19 @@ public class Restaurant {
         this.wallet = new Wallet(0);
     }
 
-    public void addFoodItemToMenu(FoodItem newFood) {
+    public void addFoodItemToMenu() {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter item name: ");
+        String name = s.next();
+        System.out.println("Enter item price: ");
+        int price = s.nextInt();
+        System.out.println("Enter item quantity: ");
+        int quantity = s.nextInt();
+        System.out.println("Enter item category: ");
+        String category = s.next();
+        System.out.println("Enter item offer: ");
+        int offer = s.nextInt();
+        FoodItem newFood = new FoodItem(name, price, quantity, category, offer, this.getName());
         this.getMenu().put(newFood.getId(), newFood);
     }
 
@@ -118,4 +130,6 @@ public class Restaurant {
 
     }
 
+    @Override
+    public void showUserName(){}
 }

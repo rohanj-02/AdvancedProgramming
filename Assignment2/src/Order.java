@@ -45,4 +45,19 @@ public class Order {
         this.price = price;
         this.foodList = new ArrayList<>();
     }
+
+    public void addFoodItem(FoodItem item){
+        this.getFoodList().add(item);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "restaurant=" + restaurant +
+                ", customer=" + customer +
+                ", price=" + price +
+                ", deliveryCharge=" + deliveryCharge +
+                ", foodList=" + foodList +
+                '}';
+    }
 }

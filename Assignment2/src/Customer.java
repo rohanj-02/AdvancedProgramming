@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
-public class Customer {
+public class Customer implements User{
 
     private Wallet wallet;
     private String name;
     private String address;
-    private Order currentOrder;
+    private Order cart;
     private ArrayList<Order> pastOrders;
     private Restaurant restaurant;
 
@@ -33,12 +33,12 @@ public class Customer {
         this.address = address;
     }
 
-    public Order getCurrentOrder() {
-        return currentOrder;
+    public Order getCart() {
+        return cart;
     }
 
-    public void setCurrentOrder(Order currentOrder) {
-        this.currentOrder = currentOrder;
+    public void setCart(Order cart) {
+        this.cart = cart;
     }
 
     public ArrayList<Order> getPastOrders() {
@@ -63,10 +63,17 @@ public class Customer {
         this.setPastOrders(new ArrayList<>());
         this.setWallet(new Wallet(1000));
         this.setRestaurant(null);
-        this.setCurrentOrder(null);
+//        this.setCurrentOrder(null);
     }
 
-    public void selectRestaurant() {
-
+    public void addFoodItemToCart(FoodItem newItem){
+        this.getCart().addFoodItem(newItem);
     }
+    public void printRecentOrders(){
+        for(Order order: this.getPastOrders()){
+            System.out.println(order);
+        }
+    }
+
+    public void showUserName(){}
 }
