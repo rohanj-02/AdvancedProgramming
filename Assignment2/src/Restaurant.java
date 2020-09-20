@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -7,7 +6,9 @@ public class Restaurant implements User {
     private String address;
     private int numberOfOrders;
     private Wallet wallet;
-    private int discount;
+    private final int discount;
+    private final int percentDiscount;
+
     private HashMap<Integer, FoodItem> menu;
 
     public String getName() {
@@ -50,13 +51,24 @@ public class Restaurant implements User {
         this.menu = menu;
     }
 
-    public Restaurant(String name, String address) {
-        this.name = name;
-        this.address = address;
-        this.menu = new HashMap<>();
-        this.numberOfOrders = 0;
-        this.wallet = new Wallet(0);
+    public int getDiscount() {
+        return discount;
     }
+
+    public int getPercentDiscount() {
+        return percentDiscount;
+    }
+
+    public Restaurant(String name, String address) {
+        this.setName(name);
+        this.setAddress(address);
+        this.setMenu(new HashMap<>());
+        this.setNumberOfOrders(0);
+        this.setWallet(new Wallet(0));
+        this.percentDiscount = 0;
+        this.discount = 0;
+    }
+
 
     public void addFoodItemToMenu() {
         Scanner s = new Scanner(System.in);
@@ -120,8 +132,8 @@ public class Restaurant implements User {
         System.out.println("Reward Points: " + this.getWallet().getRewardPoints());
     }
 
-    private void printMenu() {
-        for (FoodItem item : menu.values()) {
+    public void printMenu() {
+        for (FoodItem item : getMenu().values()) {
             System.out.println(item);
         }
     }

@@ -16,6 +16,8 @@ public class Order {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+        this.setRestaurantPercentDiscount(restaurant.getPercentDiscount());
+        this.setRestaurantDiscount(restaurant.getDiscount());
     }
 
     public Customer getCustomer() {
