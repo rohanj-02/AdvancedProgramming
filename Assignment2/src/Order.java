@@ -1,13 +1,14 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Order {
     private Restaurant restaurant;
     private Customer customer;
     private float price;
-    private int discount;
+    private int customerDiscount;
+    private int restaurantPercentDiscount;
+    private int restaurantDiscount;
     private int deliveryCharge;
-    HashMap<Integer, FoodItem> foodList;
+    private HashMap<Integer, FoodItem> foodList;
 
     public Restaurant getRestaurant() {
         return restaurant;
@@ -37,14 +38,6 @@ public class Order {
         return deliveryCharge;
     }
 
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
     public HashMap<Integer, FoodItem> getFoodList() {
         return foodList;
     }
@@ -57,15 +50,28 @@ public class Order {
         this.deliveryCharge = deliveryCharge;
     }
 
-    public Order(Restaurant restaurant, Customer customer, float price) {
-        this.restaurant = restaurant;
-        this.customer = customer;
-        this.price = price;
-        this.foodList = new HashMap<>();
+    public int getCustomerDiscount() {
+        return customerDiscount;
     }
 
-    public Order(){
+    public void setCustomerDiscount(int customerDiscount) {
+        this.customerDiscount = customerDiscount;
+    }
 
+    public int getRestaurantPercentDiscount() {
+        return restaurantPercentDiscount;
+    }
+
+    public void setRestaurantPercentDiscount(int restaurantPercentDiscount) {
+        this.restaurantPercentDiscount = restaurantPercentDiscount;
+    }
+
+    public int getRestaurantDiscount() {
+        return restaurantDiscount;
+    }
+
+    public void setRestaurantDiscount(int restaurantDiscount) {
+        this.restaurantDiscount = restaurantDiscount;
     }
 
     public void addFoodItem(FoodItem item){
@@ -75,19 +81,59 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "restaurant=" + restaurant +
-                ", customer=" + customer +
-                ", price=" + price +
-                ", deliveryCharge=" + deliveryCharge +
-                ", foodList=" + foodList +
+                "restaurant=" + getRestaurant() +
+                ", customer=" + getCustomer() +
+                ", price=" + getPrice() +
+                ", deliveryCharge=" + getDeliveryCharge() +
+                ", foodList=" + getFoodList() +
                 '}';
     }
 
-    public void printFoodList(){}
 
-    public float getOrderValue(){return 0;}
+    public float calculatePrice(){
+        float price = 0;
+        for(FoodItem item : getFoodList().values()){
+            float priceTemp = item.getPrice()*(100 - (float)item.getOffer())/100;
+            priceTemp *= item.getQuantity();
+            price += priceTemp;
+        }
+        this.setPrice(price);
+        return price;
+    }
+    public float getOrderValue(){
+        float foodPrice = this.calculatePrice();
+        foodPrice = foodPrice * (100 - this.getRestaurantPercentDiscount())/100;
+        if(foodPrice > 100){
+            foodPrice -= this.getRestaurantDiscount();
+        }
+        if(foodPrice > 200){
+            foodPrice -= this.getCustomerDiscount();
+        }
+        return foodPrice + this.getDeliveryCharge();
+        //TODO CHeck if getOrderValue inclusive of delivery charge or not
+    }
 
-    public void deleteFoodItem(int foodItemId){}
+    public Order(Customer customer, int customerDiscount, int deliveryCharge){
+        this.setCustomer(customer);
+        this.setCustomerDiscount(customerDiscount);
+        this.setDeliveryCharge(deliveryCharge);
+        this.setFoodList(new HashMap<>());
+        this.setPrice(0);
+    }
+
+    public Order(){}
+
+    public void deleteFoodItem(int foodItemId){
+        this.getFoodList().remove(foodItemId);
+    }
+
+
+
+    public void printFoodList(){
+        for(FoodItem item : this.getFoodList().values()){
+            System.out.println(item);
+        }
+    }
 
 
 

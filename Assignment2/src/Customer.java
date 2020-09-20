@@ -118,6 +118,6 @@ public class Customer implements User{
     }
 
     public void initialiseCart(){
-        this.cart = new Order();
+        this.cart = new Order(this, 0, 40);
     }
 }
