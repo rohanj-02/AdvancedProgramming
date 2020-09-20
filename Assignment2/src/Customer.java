@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Customer implements User{
 
@@ -79,10 +80,44 @@ public class Customer implements User{
     public void showUserName(){}
 
     public void showUserMenu(){
+        this.initialiseCart();
 
     }
 
     public void checkout(){
-        
+        System.out.println("Items in Cart - ");
+        this.getCart().printFoodList();
+        System.out.println("Delivery Charge - " + this.getCart().getDeliveryCharge() + "/-");
+        System.out.println("Total order value - INR " + this.getCart().getOrderValue());
+        Scanner s = new Scanner(System.in);
+        boolean flag = true;
+        while(this.getCart().getOrderValue() > this.getWallet().getBalance()){
+            System.out.println("Balance Low \nDelete items from cart - ");
+            this.getCart().printFoodList();
+            int option = s.nextInt();
+            this.getCart().deleteFoodItem(option);
+            flag = false;
+        }
+        if(!flag){
+            this.getCart().printFoodList();
+            System.out.println("Delivery Charge - " + this.getCart().getDeliveryCharge() + "/-");
+            System.out.println("Total order value - INR " + this.getCart().getOrderValue());
+        }
+        System.out.println("1. Proceed to Checkout");
+        int next = s.nextInt();
+        if(next == 1){
+            System.out.println("Successfully placed order for INR " + this.getCart().getOrderValue() + "/-");
+            this.getWallet().deductBalance(this.getCart().getOrderValue());
+            this.addToPastOrders(this.getCart());
+            this.setCart(null);
+        }
+    }
+
+    public void addToPastOrders(Order order){
+        //TODO
+    }
+
+    public void initialiseCart(){
+        this.cart = new Order();
     }
 }

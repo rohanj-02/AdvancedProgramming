@@ -14,6 +14,8 @@ public class Wallet {
         this.setBalance(this.getBalance() - x);
     }
 
+    ///BALANCE REFERS TO THE WHOLE AMOUNT
+
     public float getRewardPoints() {
         return this.rewardPoints;
     }

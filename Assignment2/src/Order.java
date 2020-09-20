@@ -1,11 +1,13 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Order {
     private Restaurant restaurant;
     private Customer customer;
     private float price;
+    private int discount;
     private int deliveryCharge;
-    ArrayList<FoodItem> foodList;
+    HashMap<Integer, FoodItem> foodList;
 
     public Restaurant getRestaurant() {
         return restaurant;
@@ -31,23 +33,43 @@ public class Order {
         this.price = price;
     }
 
-    public ArrayList<FoodItem> getFoodList() {
+    public int getDeliveryCharge() {
+        return deliveryCharge;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public HashMap<Integer, FoodItem> getFoodList() {
         return foodList;
     }
 
-    public void setFoodList(ArrayList<FoodItem> foodList) {
+    public void setFoodList(HashMap<Integer, FoodItem> foodList) {
         this.foodList = foodList;
+    }
+
+    public void setDeliveryCharge(int deliveryCharge) {
+        this.deliveryCharge = deliveryCharge;
     }
 
     public Order(Restaurant restaurant, Customer customer, float price) {
         this.restaurant = restaurant;
         this.customer = customer;
         this.price = price;
-        this.foodList = new ArrayList<>();
+        this.foodList = new HashMap<>();
+    }
+
+    public Order(){
+
     }
 
     public void addFoodItem(FoodItem item){
-        this.getFoodList().add(item);
+        this.getFoodList().put(item.getId(), item);
     }
 
     @Override
@@ -60,4 +82,13 @@ public class Order {
                 ", foodList=" + foodList +
                 '}';
     }
+
+    public void printFoodList(){}
+
+    public float getOrderValue(){return 0;}
+
+    public void deleteFoodItem(int foodItemId){}
+
+
+
 }
