@@ -69,6 +69,7 @@ public class Customer implements User{
     public void addFoodItemToCart(FoodItem newItem){
         this.getCart().addFoodItem(newItem);
     }
+
     public void printRecentOrders(){
         for(Order order: this.getPastOrders()){
             System.out.println(order);
@@ -76,4 +77,12 @@ public class Customer implements User{
     }
 
     public void showUserName(){}
+
+    public void showUserMenu(){
+
+    }
+
+    public void checkout(){
+        
+    }
 }

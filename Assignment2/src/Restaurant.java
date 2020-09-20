@@ -7,6 +7,7 @@ public class Restaurant implements User {
     private String address;
     private int numberOfOrders;
     private Wallet wallet;
+    private int discount;
     private HashMap<Integer, FoodItem> menu;
 
     public String getName() {
@@ -126,10 +127,37 @@ public class Restaurant implements User {
     }
 
     public void setDiscountOnOverallBill() {
-        //code
-
+        System.out.println("You cannot set a discount. Please upgrade your restaurant type to set discount.");
     }
 
-    @Override
     public void showUserName(){}
+
+    public void showUserMenu(){
+        Scanner s = new Scanner(System.in);
+        boolean flag = true;
+        while(flag){
+            int option = s.nextInt();
+            switch(option){
+                case 1:
+                    this.addFoodItemToMenu();
+                    break;
+                case 2:
+                    this.editFoodItem();
+                    break;
+                case 3:
+                    this.printRewards();
+                    break;
+                case 4:
+                    this.setDiscountOnOverallBill();
+                    break;
+                case 5:
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Enter valid input!");
+            }
+
+        }
+    }
+
 }
