@@ -171,7 +171,7 @@ public class Customer implements User {
             this.getCart().deleteFoodItem(option);
             flag = false;
         }
-        if(this.getCart().getFoodList().size() > 0){
+        if (this.getCart().getFoodList().size() > 0) {
             if (!flag) {
                 this.getCart().printFoodList();
                 System.out.println("Delivery Charge - " + this.getCart().getDeliveryCharge() + "/-");
@@ -191,8 +191,7 @@ public class Customer implements User {
                 this.addToPastOrders(this.getCart());
                 this.initialiseCart();
             }
-        }
-        else{
+        } else {
             System.out.println("Empty Cart! Please add items to continue. ");
         }
     }
@@ -202,7 +201,7 @@ public class Customer implements User {
     }
 
     public void initialiseCart() {
-        this.setCart(new Order(this, this.customerDiscount, this.deliveryCharge));
+        this.setCart(new Order(this, this.getCustomerDiscount(), this.getDeliveryCharge()));
         this.setRestaurant(null);
     }
 

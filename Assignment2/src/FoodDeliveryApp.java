@@ -11,10 +11,10 @@ public class FoodDeliveryApp {
 
     public FoodDeliveryApp(String name) {
         this.name = name;
-        this.accountBalance = 0;
-        this.deliveryCharges = 0;
-        this.restaurantList = new ArrayList<>();
-        this.customerList = new ArrayList<>();
+        this.setAccountBalance(0);
+        this.setDeliveryCharges(0);
+        this.setRestaurantList(new ArrayList<>());
+        this.setCustomerList(new ArrayList<>());
     }
 
     public String getName() {
@@ -81,7 +81,7 @@ public class FoodDeliveryApp {
 
     public void showRestaurantList() {
         int i = 1;
-        for (Restaurant restaurant : restaurantList) {
+        for (Restaurant restaurant : getRestaurantList()) {
             System.out.print(i + ". ");
             i++;
             restaurant.showUserName();
@@ -90,7 +90,7 @@ public class FoodDeliveryApp {
 
     public void showCustomerList() {
         int i = 1;
-        for (Customer customer : customerList) {
+        for (Customer customer : getCustomerList()) {
             System.out.print(i + ". ");
             i++;
             customer.showUserName();
@@ -128,12 +128,12 @@ public class FoodDeliveryApp {
                 case 1:
                     this.showRestaurantList();
                     int restaurantSelected = s.nextInt();
-                    this.showUser(this.restaurantList.get(restaurantSelected - 1));
+                    this.showUser(this.getRestaurantList().get(restaurantSelected - 1));
                     break;
                 case 2:
                     this.showCustomerList();
                     int customerSelected = s.nextInt();
-                    this.showUser(this.customerList.get(customerSelected - 1));
+                    this.showUser(this.getCustomerList().get(customerSelected - 1));
                     break;
                 case 3:
                     System.out.println("1. Customer List");
@@ -142,11 +142,11 @@ public class FoodDeliveryApp {
                     if (choice == 1) {
                         this.showCustomerList();
                         choice = s.nextInt();
-                        this.printUserDetails(this.customerList.get(choice - 1));
+                        this.printUserDetails(this.getCustomerList().get(choice - 1));
                     } else if (choice == 2) {
                         this.showRestaurantList();
                         choice = s.nextInt();
-                        this.printUserDetails(this.restaurantList.get(choice - 1));
+                        this.printUserDetails(this.getRestaurantList().get(choice - 1));
                     }
                     break;
                 case 4:

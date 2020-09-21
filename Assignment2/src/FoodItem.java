@@ -9,19 +9,27 @@ public class FoodItem {
     private int offer;
 
     public FoodItem(String name, int price, int quantity, String category, int offer, String restaurantName, int id) {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.category = category;
-        this.offer = offer;
+        this.setName(name);
+        this.setPrice(price);
+        this.setQuantity(quantity);
+        this.setCategory(category);
+        this.setOffer(offer);
         this.restaurantName = restaurantName;
-        if(id == 0){
-            this.id = COUNT;
-            COUNT++;
-        }else{
+        if (id == 0) {
+            this.id = getCOUNT();
+            setCOUNT(getCOUNT() + 1);
+        } else {
             this.id = id;
         }
 
+    }
+
+    public static int getCOUNT() {
+        return COUNT;
+    }
+
+    public static void setCOUNT(int COUNT) {
+        FoodItem.COUNT = COUNT;
     }
 
     public String getName() {
@@ -65,7 +73,7 @@ public class FoodItem {
     }
 
     public String getRestaurant() {
-        return restaurantName;
+        return getRestaurantName();
     }
 
     public int getId() {
@@ -81,5 +89,9 @@ public class FoodItem {
                 this.getQuantity() + " " +
                 this.getOffer() + "% off " +
                 this.getCategory();
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
     }
 }

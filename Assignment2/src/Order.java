@@ -1,9 +1,9 @@
 import java.util.HashMap;
 
 public class Order {
+    private static int COUNT = 1;
     private Restaurant restaurant;
     private int ID;
-    private static int COUNT = 1;
     private Customer customer;
     private float price;
     private int customerDiscount;
@@ -18,11 +18,19 @@ public class Order {
         this.setDeliveryCharge(deliveryCharge);
         this.setFoodList(new HashMap<>());
         this.setPrice(0);
-        this.ID = COUNT;
-        COUNT++;
+        this.setID(getCOUNT());
+        setCOUNT(getCOUNT() + 1);
     }
 
     public Order() {
+    }
+
+    public static int getCOUNT() {
+        return COUNT;
+    }
+
+    public static void setCOUNT(int COUNT) {
+        Order.COUNT = COUNT;
     }
 
     public Restaurant getRestaurant() {
@@ -109,7 +117,7 @@ public class Order {
         orderSummary += "Restaurant: " + this.getRestaurant().getName() + "\nCustomer: " + this.getCustomer().getName();
         orderSummary += "\nOrder Price: " + this.getPrice() + "/-\nDelivery Charge: " + this.getDeliveryCharge() + "/-\n";
         orderSummary += "Food items ordered: \n";
-        for(FoodItem food: this.getFoodList().values()){
+        for (FoodItem food : this.getFoodList().values()) {
             orderSummary += food + "\n";
         }
         return orderSummary;
@@ -135,7 +143,7 @@ public class Order {
         if (foodPrice > 200) {
             foodPrice -= this.getCustomerDiscount();
         }
-        this.price = foodPrice;
+        this.setPrice(foodPrice);
         return foodPrice;
     }
 
