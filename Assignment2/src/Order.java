@@ -3,34 +3,24 @@ import java.util.HashMap;
 public class Order {
     private static int COUNT = 1;
     private Restaurant restaurant;
-    private int ID;
-    private Customer customer;
+    private final int ID;
+    private final String customerName;
     private float price;
-    private int customerDiscount;
+    private final int customerDiscount;
     private int restaurantPercentDiscount;
     private int restaurantDiscount;
-    private int deliveryCharge;
-    private HashMap<Integer, FoodItem> foodList;
+    private final int deliveryCharge;
+    private final HashMap<Integer, FoodItem> foodList;
 
     public Order(Customer customer, int customerDiscount, int deliveryCharge) {
-        this.setCustomer(customer);
-        this.setCustomerDiscount(customerDiscount);
-        this.setDeliveryCharge(deliveryCharge);
-        this.setFoodList(new HashMap<>());
-        this.setPrice(0);
-        this.setID(getCOUNT());
-        setCOUNT(getCOUNT() + 1);
-    }
-
-    public Order() {
-    }
-
-    public static int getCOUNT() {
-        return COUNT;
-    }
-
-    public static void setCOUNT(int COUNT) {
-        Order.COUNT = COUNT;
+        this.customerName = customer.getName();
+        this.customerDiscount = customerDiscount;
+        this.deliveryCharge = deliveryCharge;
+        this.foodList = new HashMap<>();
+        this.price = 0;
+        this.ID = COUNT;
+        this.restaurant = null;
+        COUNT++;
     }
 
     public Restaurant getRestaurant() {
@@ -43,20 +33,12 @@ public class Order {
         this.setRestaurantDiscount(restaurant.getDiscount());
     }
 
-    public int getID() {
+    private int getID() {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public String getCustomerName() {
+        return customerName;
     }
 
     public float getPrice() {
@@ -71,24 +53,12 @@ public class Order {
         return deliveryCharge;
     }
 
-    public void setDeliveryCharge(int deliveryCharge) {
-        this.deliveryCharge = deliveryCharge;
-    }
-
     public HashMap<Integer, FoodItem> getFoodList() {
         return foodList;
     }
 
-    public void setFoodList(HashMap<Integer, FoodItem> foodList) {
-        this.foodList = foodList;
-    }
-
     public int getCustomerDiscount() {
         return customerDiscount;
-    }
-
-    public void setCustomerDiscount(int customerDiscount) {
-        this.customerDiscount = customerDiscount;
     }
 
     public int getRestaurantPercentDiscount() {
@@ -114,7 +84,7 @@ public class Order {
     @Override
     public String toString() {
         String orderSummary = "Order Summary : \nOrder ID: " + this.getID() + "\n";
-        orderSummary += "Restaurant: " + this.getRestaurant().getName() + "\nCustomer: " + this.getCustomer().getName();
+        orderSummary += "Restaurant: " + this.getRestaurant().getName() + "\nCustomer: " + this.getCustomerName();
         orderSummary += "\nOrder Price: " + this.getPrice() + "/-\nDelivery Charge: " + this.getDeliveryCharge() + "/-\n";
         orderSummary += "Food items ordered: \n";
         for (FoodItem food : this.getFoodList().values()) {
@@ -150,7 +120,6 @@ public class Order {
     public void deleteFoodItem(int foodItemId) {
         this.getFoodList().remove(foodItemId);
     }
-
 
     public void printFoodList() {
         for (FoodItem item : this.getFoodList().values()) {

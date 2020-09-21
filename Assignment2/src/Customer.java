@@ -4,113 +4,83 @@ import java.util.Scanner;
 
 public class Customer implements User {
 
-    private Wallet wallet;
-    private String name;
-    private String address;
+    private final Wallet wallet;
+    private final String name;
+    private final String address;
     private Order cart;
-    private ArrayList<Order> pastOrders;
-    private Restaurant restaurant;
-    private FoodDeliveryApp app;
+    private final ArrayList<Order> pastOrders;
+    private final FoodDeliveryApp app;
     private int customerDiscount;
     private int deliveryCharge;
 
     public Customer(String name, String address, FoodDeliveryApp app) {
-        this.setName(name);
-        this.setAddress(address);
-        this.setPastOrders(new ArrayList<>());
-        this.setWallet(new Wallet(1000));
-        this.setApp(app);
-        this.setRestaurant(null);
-        this.setDeliveryCharge(40);
-        this.setCustomerDiscount(0);
+        this.name = name;
+        this.address = address;
+        this.pastOrders = new ArrayList<>();
+        this.wallet = new Wallet(1000);
+        this.app = app;
+        this.deliveryCharge = 40;
+        this.customerDiscount = 0;
     }
 
-    public Customer() {
-    }
-
-    public Wallet getWallet() {
+    protected Wallet getWallet() {
         return wallet;
-    }
-
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
+    protected String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Order getCart() {
+    private Order getCart() {
         return cart;
     }
 
-    public void setCart(Order cart) {
+    private void setCart(Order cart) {
         this.cart = cart;
     }
 
-    public ArrayList<Order> getPastOrders() {
+    private ArrayList<Order> getPastOrders() {
         return pastOrders;
     }
 
-    public void setPastOrders(ArrayList<Order> pastOrders) {
-        this.pastOrders = pastOrders;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public int getCustomerDiscount() {
+    private int getCustomerDiscount() {
         return customerDiscount;
     }
 
-    public void setCustomerDiscount(int customerDiscount) {
+    protected void setCustomerDiscount(int customerDiscount) {
         this.customerDiscount = customerDiscount;
     }
 
-    public int getDeliveryCharge() {
+    private int getDeliveryCharge() {
         return deliveryCharge;
     }
 
-    public void setDeliveryCharge(int deliveryCharge) {
+    protected void setDeliveryCharge(int deliveryCharge) {
         this.deliveryCharge = deliveryCharge;
     }
 
-    public FoodDeliveryApp getApp() {
+    private FoodDeliveryApp getApp() {
         return app;
     }
 
-    public void setApp(FoodDeliveryApp app) {
-        this.app = app;
+    private Restaurant getRestaurant(){
+        return this.getCart().getRestaurant();
     }
 
-    public void addFoodItemToCart(FoodItem newItem) {
+    private void addFoodItemToCart(FoodItem newItem) {
         this.getCart().addFoodItem(newItem);
     }
 
+    private void addToPastOrders(Order order) {
+        this.getPastOrders().add(order);
+    }
 
-    public void printRecentOrders() {
-        int i = 0;
-        for (Order order : this.getPastOrders()) {
-            i++;
-            if (i < 10) System.out.println(order);
-        }
+    private void initialiseCart() {
+        this.setCart(new Order(this, this.getCustomerDiscount(), this.getDeliveryCharge()));
     }
 
     public void showUserName() {
@@ -157,7 +127,25 @@ public class Customer implements User {
 
     }
 
-    public void checkout() {
+    private void selectRestaurant() {
+        Scanner s = new Scanner(System.in);
+        if(this.getRestaurant() == null){
+            System.out.println("Choose a restaurant: ");
+            this.getCart().setRestaurant(this.getApp().selectRestaurant());
+        }
+        HashMap<Integer, FoodItem> menu = this.getRestaurant().getMenu();
+        this.getRestaurant().printMenu();
+        System.out.println("Choose item by code");
+        int option = s.nextInt();
+        System.out.println("Enter item quantity");
+        int quantity = s.nextInt();
+        FoodItem itemSelected = menu.get(option);
+
+        this.addFoodItemToCart(new FoodItem(itemSelected.getName(), itemSelected.getPrice(), quantity, itemSelected.getCategory(), itemSelected.getOffer(), itemSelected.getRestaurantName(), itemSelected.getId()));
+        System.out.println("Items added to cart.");
+    }
+
+    private void checkout() {
         System.out.println("Items in Cart - ");
         this.getCart().printFoodList();
         System.out.println("Delivery Charge - " + this.getCart().getDeliveryCharge() + "/-");
@@ -196,34 +184,12 @@ public class Customer implements User {
         }
     }
 
-    public void addToPastOrders(Order order) {
-        this.getPastOrders().add(order);
+    private void printRecentOrders() {
+        int i = 0;
+        for (Order order : this.getPastOrders()) {
+            i++;
+            if (i < 10) System.out.println(order);
+        }
     }
 
-    public void initialiseCart() {
-        this.setCart(new Order(this, this.getCustomerDiscount(), this.getDeliveryCharge()));
-        this.setRestaurant(null);
-    }
-
-    public void selectRestaurant() {
-        Scanner s = new Scanner(System.in);
-        ArrayList<Restaurant> restaurantList = this.getApp().getRestaurantList();
-        System.out.println("Choose a restaurant: ");
-        this.getApp().showRestaurantList();
-        int option = s.nextInt();
-
-        this.setRestaurant(restaurantList.get(option - 1));
-        this.getCart().setRestaurant(this.getRestaurant());
-
-        HashMap<Integer, FoodItem> menu = this.getRestaurant().getMenu();
-        this.getRestaurant().printMenu();
-        System.out.println("Choose item by code");
-        option = s.nextInt();
-        System.out.println("Enter item quantity");
-        int quantity = s.nextInt();
-        FoodItem itemSelected = menu.get(option);
-
-        this.addFoodItemToCart(new FoodItem(itemSelected.getName(), itemSelected.getPrice(), quantity, itemSelected.getCategory(), itemSelected.getOffer(), itemSelected.getRestaurant(), itemSelected.getId()));
-        System.out.println("Items added to cart.");
-    }
 }
