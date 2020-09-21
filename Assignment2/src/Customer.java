@@ -11,6 +11,8 @@ public class Customer implements User{
     private ArrayList<Order> pastOrders;
     private Restaurant restaurant;
     private FoodDeliveryApp app;
+    private int customerDiscount;
+    private int deliveryCharge;
 
     public Wallet getWallet() {
         return wallet;
@@ -60,7 +62,21 @@ public class Customer implements User{
         this.restaurant = restaurant;
     }
 
-    
+    public int getCustomerDiscount() {
+        return customerDiscount;
+    }
+
+    public void setCustomerDiscount(int customerDiscount) {
+        this.customerDiscount = customerDiscount;
+    }
+
+    public int getDeliveryCharge() {
+        return deliveryCharge;
+    }
+
+    public void setDeliveryCharge(int deliveryCharge) {
+        this.deliveryCharge = deliveryCharge;
+    }
 
     public FoodDeliveryApp getApp() {
         return app;
@@ -79,6 +95,8 @@ public class Customer implements User{
         this.setRestaurant(null);
 //        this.setCurrentOrder(null);
     }
+
+    public Customer(){}
 
     public void addFoodItemToCart(FoodItem newItem){
         this.getCart().addFoodItem(newItem);
@@ -133,10 +151,10 @@ public class Customer implements User{
         System.out.println("Items in Cart - ");
         this.getCart().printFoodList();
         System.out.println("Delivery Charge - " + this.getCart().getDeliveryCharge() + "/-");
-        System.out.println("Total order value - INR " + this.getCart().getOrderValue());
+        System.out.println("Total order value - INR " + (this.getCart().getOrderValue() + this.getCart().getDeliveryCharge())) ;
         Scanner s = new Scanner(System.in);
         boolean flag = true;
-        while(this.getCart().getOrderValue() > this.getWallet().getBalance()){
+        while(this.getCart().getOrderValue() + this.getCart().getDeliveryCharge() > this.getWallet().getBalance()){
             System.out.println("Balance Low \nDelete items from cart - ");
             this.getCart().printFoodList();
             int option = s.nextInt();
@@ -146,13 +164,17 @@ public class Customer implements User{
         if(!flag){
             this.getCart().printFoodList();
             System.out.println("Delivery Charge - " + this.getCart().getDeliveryCharge() + "/-");
-            System.out.println("Total order value - INR " + this.getCart().getOrderValue());
+            System.out.println("Total order value - INR " + (this.getCart().getOrderValue() + this.getCart().getDeliveryCharge()));
         }
         System.out.println("1. Proceed to Checkout");
         int next = s.nextInt();
         if(next == 1){
-            System.out.println("Successfully placed order for INR " + this.getCart().getOrderValue() + "/-");
-            this.getWallet().deductBalance(this.getCart().getOrderValue());
+            System.out.println("Successfully placed order for INR " +(this.getCart().getOrderValue() + this.getCart().getDeliveryCharge())+ "/-");
+            this.getWallet().deductBalance((this.getCart().getOrderValue() + this.getCart().getDeliveryCharge()));
+            int rewards = this.getRestaurant().calculateRewardValue(this.getCart().getOrderValue());
+            this.getRestaurant().checkout(this.getCart().getOrderValue());
+            this.getWallet().addRewardPoints(rewards);
+            //1 % payment to restaurant
             this.addToPastOrders(this.getCart());
             this.setCart(null);
         }
@@ -163,7 +185,7 @@ public class Customer implements User{
     }
 
     public void initialiseCart(){
-        this.setCart(new Order(this, 0, 40));
+        this.setCart(new Order(this, this.customerDiscount, this.deliveryCharge));
         this.setRestaurant(null);
     }
 

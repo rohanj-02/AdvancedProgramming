@@ -5,9 +5,14 @@ public class Restaurant implements User {
     private String name;
     private String address;
     private int numberOfOrders;
-    private Wallet wallet;
-    private final int discount;
-    private final int percentDiscount;
+//    private Wallet wallet;
+    private int rewardPoints;
+    private float balance;
+    private FoodDeliveryApp app;
+    private int discount;
+    private int rewardPointPerX;
+    private int rewardPointThreshold;
+    private int percentDiscount;
 
     private HashMap<Integer, FoodItem> menu;
 
@@ -35,12 +40,20 @@ public class Restaurant implements User {
         this.numberOfOrders = numberOfOrders;
     }
 
-    public Wallet getWallet() {
-        return wallet;
+    public int getRewardPoints() {
+        return rewardPoints;
     }
 
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
+    public void setRewardPoints(int rewardPoints) {
+        this.rewardPoints = rewardPoints;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(float balance) {
+        this.balance = balance;
     }
 
     public HashMap<Integer, FoodItem> getMenu() {
@@ -59,14 +72,44 @@ public class Restaurant implements User {
         return percentDiscount;
     }
 
-    public Restaurant(String name, String address) {
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public void setRewardPointPerX(int rewardPointPerX) {
+        this.rewardPointPerX = rewardPointPerX;
+    }
+
+    public void setRewardPointThreshold(int rewardPointThreshold) {
+        this.rewardPointThreshold = rewardPointThreshold;
+    }
+
+    public void setPercentDiscount(int percentDiscount) {
+        this.percentDiscount = percentDiscount;
+    }
+
+    public FoodDeliveryApp getApp() {
+        return app;
+    }
+
+    public int getRewardPointPerX() {
+        return rewardPointPerX;
+    }
+
+    public int getRewardPointThreshold() {
+        return rewardPointThreshold;
+    }
+
+    public Restaurant(String name, String address, FoodDeliveryApp app) {
         this.setName(name);
         this.setAddress(address);
         this.setMenu(new HashMap<>());
         this.setNumberOfOrders(0);
-        this.setWallet(new Wallet(0));
-        this.percentDiscount = 0;
-        this.discount = 0;
+        this.setPercentDiscount(0);
+        this.setDiscount(0);
+        this.setApp(app);
+        this.setRewardPointPerX(5);
+        this.setRewardPointThreshold(100);
     }
 
 
@@ -129,7 +172,7 @@ public class Restaurant implements User {
     }
 
     public void printRewards() {
-        System.out.println("Reward Points: " + this.getWallet().getRewardPoints());
+        System.out.println("Reward Points: " + this.getRewardPoints());
     }
 
     public void printMenu() {
@@ -172,4 +215,31 @@ public class Restaurant implements User {
         }
     }
 
+    public void increaseNumberOfOrders(){
+        this.setNumberOfOrders(this.getNumberOfOrders() + 1);
+    }
+
+    public int calculateRewardValue(float orderValue){
+        return (int)(orderValue % this.getRewardPointThreshold()) * this.getRewardPointPerX();
+    }
+
+    public void addBalance(float orderValue){
+        this.setBalance(this.getBalance() + orderValue);
+    }
+
+    public void payApp(float charges){
+        this.getApp().addToBalance(charges);
+    }
+
+    public void checkout(float orderValue){
+        this.setRewardPoints(this.getRewardPoints() + this.calculateRewardValue(orderValue));
+        this.increaseNumberOfOrders();
+        //TODO DELETE FOOD ITEMS and choose item quantity less than specified
+        this.addBalance(orderValue);
+        this.payApp((float)(orderValue * 0.01));
+    }
+
+    public void setApp(FoodDeliveryApp app) {
+        this.app = app;
+    }
 }

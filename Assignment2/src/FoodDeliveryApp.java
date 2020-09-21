@@ -47,6 +47,7 @@ public class FoodDeliveryApp {
 
     public FoodDeliveryApp(String name) {
         this.name = name;
+        this.accountBalance = 0;
     }
 
     public void populate() {
@@ -61,6 +62,10 @@ public class FoodDeliveryApp {
         for(Customer customer: customerList){
             customer.showUserName();
         }
+    }
+
+    public void addToBalance(float x){
+        this.setAccountBalance(this.getAccountBalance() + x);
     }
 
     public void showUser(User user){

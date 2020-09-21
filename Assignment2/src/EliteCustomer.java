@@ -1,2 +1,10 @@
-public class EliteCustomer {
+import java.util.ArrayList;
+
+public class EliteCustomer extends Customer{
+    public EliteCustomer(String name, String address, FoodDeliveryApp app) {
+        super(name, address, app);
+        this.setDeliveryCharge(0);
+        this.setCustomerDiscount(50);
+    }
+
 }

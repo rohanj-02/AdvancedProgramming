@@ -1,30 +1,45 @@
 public class Wallet {
-    private float balance;
-    private float rewardPoints;
+    private float amount;
+    private int rewardPoints;
 
     public float getBalance() {
-        return balance;
+        return getAmount() + getRewardPoints();
     }
 
-    public void setBalance(float balance) {
-        this.balance = balance;
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public void setRewardPoints(int rewardPoints) {
+        this.rewardPoints = rewardPoints;
     }
 
     public void deductBalance(float x) {
-        this.setBalance(this.getBalance() - x);
+        if(this.getRewardPoints() > x){
+            this.setRewardPoints((int)(this.getRewardPoints() - x));
+        }
+        else if(this.getRewardPoints() < x){
+            this.setAmount(this.getAmount() - (x - this.getRewardPoints()));
+            this.setRewardPoints(0);
+        }
     }
 
     ///BALANCE REFERS TO THE WHOLE AMOUNT
 
-    public float getRewardPoints() {
+    public int getRewardPoints() {
         return this.rewardPoints;
     }
 
-    public void addBalance(float x) {
-        this.setBalance(this.getBalance() + x);
+    public void addRewardPoints(int x){
+        this.setRewardPoints(this.getRewardPoints() + x);
     }
 
-    public Wallet(float balance) {
-        this.balance = balance;
+    public Wallet(float amount) {
+        this.setAmount(amount);
+        this.setRewardPoints(0);
     }
 }
