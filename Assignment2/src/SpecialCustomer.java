@@ -7,12 +7,12 @@ public class SpecialCustomer extends Customer {
 
     @Override
     public void showUserName() {
-        System.out.println(this.getName() + "(Special)");
+        System.out.println(this.getName() + " (Special)");
     }
 
     @Override
     public void showUserDetails() {
-        System.out.println(this.getName() + "(Special), " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
+        System.out.println(this.getName() + " (Special), " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
     }
 
 }

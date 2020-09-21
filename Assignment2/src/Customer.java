@@ -7,9 +7,9 @@ public class Customer implements User {
     private final Wallet wallet;
     private final String name;
     private final String address;
-    private Order cart;
     private final ArrayList<Order> pastOrders;
     private final FoodDeliveryApp app;
+    private Order cart;
     private int customerDiscount;
     private int deliveryCharge;
 
@@ -27,11 +27,13 @@ public class Customer implements User {
         return wallet;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    protected String getAddress() {
+    @Override
+    public String getAddress() {
         return address;
     }
 
@@ -67,7 +69,7 @@ public class Customer implements User {
         return app;
     }
 
-    private Restaurant getRestaurant(){
+    private Restaurant getRestaurant() {
         return this.getCart().getRestaurant();
     }
 
@@ -83,14 +85,17 @@ public class Customer implements User {
         this.setCart(new Order(this, this.getCustomerDiscount(), this.getDeliveryCharge()));
     }
 
+    @Override
     public void showUserName() {
         System.out.println(this.getName());
     }
 
+    @Override
     public void showUserDetails() {
         System.out.println(this.getName() + ", " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
     }
 
+    @Override
     public void showUserMenu() {
         Scanner s = new Scanner(System.in);
         this.initialiseCart();
@@ -129,7 +134,7 @@ public class Customer implements User {
 
     private void selectRestaurant() {
         Scanner s = new Scanner(System.in);
-        if(this.getRestaurant() == null){
+        if (this.getRestaurant() == null) {
             System.out.println("Choose a restaurant: ");
             this.getCart().setRestaurant(this.getApp().selectRestaurant());
         }
@@ -140,12 +145,11 @@ public class Customer implements User {
         System.out.println("Enter item quantity");
         int quantity = s.nextInt();
         FoodItem itemSelected = menu.get(option);
-        if(itemSelected.getQuantity() >= quantity){
+        if (itemSelected.getQuantity() >= quantity) {
             this.addFoodItemToCart(new FoodItem(itemSelected.getName(), itemSelected.getPrice(), quantity, itemSelected.getCategory(), itemSelected.getOffer(), itemSelected.getRestaurantName(), itemSelected.getId()));
             System.out.println("Items added to cart.");
-        }
-        else{
-            System.out.println("Quantity greater than available! ");
+        } else {
+            System.out.println("Entered quantity greater than available! ");
         }
 
     }
@@ -186,11 +190,12 @@ public class Customer implements User {
         }
     }
 
-    public void deductBalance(float x){
+    public void deductBalance(float x) {
         this.getWallet().deductBalance(x);
     }
 
-    public void addRewardPoints(int x){
+    @Override
+    public void addRewardPoints(int x) {
         this.getWallet().addRewardPoints(x);
     }
 

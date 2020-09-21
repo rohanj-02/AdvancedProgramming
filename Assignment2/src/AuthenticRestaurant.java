@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class AuthenticRestaurant extends Restaurant {
 
-    public AuthenticRestaurant(String name, String address, FoodDeliveryApp app) {
-        super(name, address, app);
+    public AuthenticRestaurant(String name, String address) {
+        super(name, address);
         this.setPercentDiscount(0);
         this.setDiscount(50);
         this.setRewardPointPerX(25);
@@ -12,12 +12,12 @@ public class AuthenticRestaurant extends Restaurant {
 
     @Override
     public void showUserDetails() {
-        System.out.println(this.getName() + "(Authentic), " + this.getAddress() + ", " + this.getNumberOfOrders());
+        System.out.println(this.getName() + " (Authentic), " + this.getAddress() + ", " + this.getNumberOfOrders());
     }
 
     @Override
     public void showUserName() {
-        System.out.println(this.getName() + "(Authentic)");
+        System.out.println(this.getName() + " (Authentic)");
     }
 
 

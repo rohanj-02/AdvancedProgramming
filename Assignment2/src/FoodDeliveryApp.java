@@ -21,11 +21,11 @@ public class FoodDeliveryApp {
         return this.name;
     }
 
-    public ArrayList<User> getRestaurantList() {
+    private ArrayList<User> getRestaurantList() {
         return restaurantList;
     }
 
-    public ArrayList<User> getCustomerList() {
+    private ArrayList<User> getCustomerList() {
         return customerList;
     }
 
@@ -45,11 +45,11 @@ public class FoodDeliveryApp {
         this.deliveryCharges = deliveryCharges;
     }
 
-    public void addToBalance(float x) {
+    private void addToBalance(float x) {
         this.setAccountBalance(this.getAccountBalance() + x);
     }
 
-    public void addToDeliveryCharge(int x) {
+    private void addToDeliveryCharge(int x) {
         this.setDeliveryCharges(this.getDeliveryCharges() + x);
     }
 
@@ -70,18 +70,18 @@ public class FoodDeliveryApp {
         this.getCustomerList().add(new SpecialCustomer("Tim", "Delhi", this));
         this.getCustomerList().add(new Customer("Kim", "Mumbai", this));
         this.getCustomerList().add(new Customer("Jim", "Kolkata", this));
-        this.getRestaurantList().add(new AuthenticRestaurant("Shah", "Delhi", this));
-        this.getRestaurantList().add(new Restaurant("Ravi's", "Delhi", this));
-        this.getRestaurantList().add(new AuthenticRestaurant("The Chinese", "Delhi", this));
-        this.getRestaurantList().add(new FastFoodRestaurant("Wang's", "Delhi", this));
-        this.getRestaurantList().add(new Restaurant("Paradise", "India", this));
+        this.getRestaurantList().add(new AuthenticRestaurant("Shah", "Delhi"));
+        this.getRestaurantList().add(new Restaurant("Ravi's", "Delhi"));
+        this.getRestaurantList().add(new AuthenticRestaurant("The Chinese", "Delhi"));
+        this.getRestaurantList().add(new FastFoodRestaurant("Wang's", "Delhi"));
+        this.getRestaurantList().add(new Restaurant("Paradise", "India"));
 
 
     }
 
-    public void showUserList(ArrayList<User> userList){
+    private void showUserList(ArrayList<User> userList) {
         int i = 1;
-        for(User user: userList){
+        for (User user : userList) {
             System.out.print(i + ". ");
             i++;
             user.showUserName();
@@ -108,28 +108,28 @@ public class FoodDeliveryApp {
         }
     }
 
-    public Restaurant selectRestaurant(){
+    public Restaurant selectRestaurant() {
         Scanner s = new Scanner(System.in);
         this.showUserList(this.getRestaurantList());
         int restaurantSelected = s.nextInt();
         return (Restaurant) this.getRestaurantList().get(restaurantSelected - 1);
     }
 
-    public Customer selectCustomer(){
+    public Customer selectCustomer() {
         Scanner s = new Scanner(System.in);
         this.showUserList(this.getCustomerList());
         int customerSelected = s.nextInt();
         return (Customer) this.getCustomerList().get(customerSelected - 1);
     }
 
-    public void checkout(Customer customer, Restaurant restaurant, Order order){
+    public void checkout(Customer customer, Restaurant restaurant, Order order) {
         customer.deductBalance(order.getOrderValue() + order.getDeliveryCharge());
         int rewards = restaurant.calculateRewardValue(order.getOrderValue());
         restaurant.addRewardPoints(rewards);
         restaurant.increaseNumberOfOrders();
         restaurant.decreaseQuantity(order.getFoodList());
-        restaurant.addBalance((float)(order.getOrderValue()*0.99));
-        this.addToBalance((float)(order.getOrderValue()*0.01));
+        restaurant.addBalance((float) (order.getOrderValue() * 0.99));
+        this.addToBalance((float) (order.getOrderValue() * 0.01));
         customer.addRewardPoints(rewards);
         this.addToDeliveryCharge(order.getDeliveryCharge());
 

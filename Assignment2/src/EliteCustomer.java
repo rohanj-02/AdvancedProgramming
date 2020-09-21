@@ -7,12 +7,12 @@ public class EliteCustomer extends Customer {
 
     @Override
     public void showUserName() {
-        System.out.println(this.getName() + "(Elite)");
+        System.out.println(this.getName() + " (Elite)");
     }
 
     @Override
     public void showUserDetails() {
-        System.out.println(this.getName() + "(Elite), " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
+        System.out.println(this.getName() + " (Elite), " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
     }
 
 }

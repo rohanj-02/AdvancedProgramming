@@ -1,10 +1,14 @@
 public interface User {
-    //    public void displayMenu();
-//    public void addRewardPoints(float x);
+
+    String getName();
+
+    String getAddress();
+
     void showUserName();
 
     void showUserMenu();
 
     void showUserDetails();
 
+    void addRewardPoints(int x);
 }

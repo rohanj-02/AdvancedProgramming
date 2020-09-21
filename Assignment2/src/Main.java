@@ -19,7 +19,7 @@ public class Main {
                     app.showUser(app.selectRestaurant());
                     break;
                 case 2:
-                   app.showUser(app.selectCustomer());
+                    app.showUser(app.selectCustomer());
                     break;
                 case 3:
                     app.printUserDetails();

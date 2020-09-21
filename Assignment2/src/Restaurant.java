@@ -2,68 +2,59 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Restaurant implements User {
-    private String name;
-    private String address;
+    private final String name;
+    private final String address;
+    private final HashMap<Integer, FoodItem> menu;
     private int numberOfOrders;
     private int rewardPoints;
     private float balance;
-    private FoodDeliveryApp app;
     private int discount;
     private int rewardPointPerX;
     private int rewardPointThreshold;
     private int percentDiscount;
 
-    private HashMap<Integer, FoodItem> menu;
-
-    public Restaurant(String name, String address, FoodDeliveryApp app) {
-        this.setName(name);
-        this.setAddress(address);
-        this.setMenu(new HashMap<>());
-        this.setNumberOfOrders(0);
-        this.setPercentDiscount(0);
-        this.setDiscount(0);
-        this.setApp(app);
-        this.setRewardPointPerX(5);
-        this.setRewardPointThreshold(100);
+    public Restaurant(String name, String address) {
+        this.name = name;
+        this.address = address;
+        this.menu = new HashMap<>();
+        this.numberOfOrders = 0;
+        this.percentDiscount = 0;
+        this.discount = 0;
+        this.rewardPointPerX = 5;
+        this.rewardPointThreshold = 100;
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Override
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getNumberOfOrders() {
+    protected int getNumberOfOrders() {
         return numberOfOrders;
     }
 
-    public void setNumberOfOrders(int numberOfOrders) {
+    private void setNumberOfOrders(int numberOfOrders) {
         this.numberOfOrders = numberOfOrders;
     }
 
-    public int getRewardPoints() {
+    private int getRewardPoints() {
         return rewardPoints;
     }
 
-    public void setRewardPoints(int rewardPoints) {
+    private void setRewardPoints(int rewardPoints) {
         this.rewardPoints = rewardPoints;
     }
 
-    public float getBalance() {
+    private float getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    private void setBalance(float balance) {
         this.balance = balance;
     }
 
@@ -71,15 +62,11 @@ public class Restaurant implements User {
         return menu;
     }
 
-    public void setMenu(HashMap<Integer, FoodItem> menu) {
-        this.menu = menu;
-    }
-
     public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    protected void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -87,35 +74,27 @@ public class Restaurant implements User {
         return percentDiscount;
     }
 
-    public void setPercentDiscount(int percentDiscount) {
+    protected void setPercentDiscount(int percentDiscount) {
         this.percentDiscount = percentDiscount;
     }
 
-    public FoodDeliveryApp getApp() {
-        return app;
-    }
-
-    public void setApp(FoodDeliveryApp app) {
-        this.app = app;
-    }
-
-    public int getRewardPointPerX() {
+    private int getRewardPointPerX() {
         return rewardPointPerX;
     }
 
-    public void setRewardPointPerX(int rewardPointPerX) {
+    protected void setRewardPointPerX(int rewardPointPerX) {
         this.rewardPointPerX = rewardPointPerX;
     }
 
-    public int getRewardPointThreshold() {
+    private int getRewardPointThreshold() {
         return rewardPointThreshold;
     }
 
-    public void setRewardPointThreshold(int rewardPointThreshold) {
+    protected void setRewardPointThreshold(int rewardPointThreshold) {
         this.rewardPointThreshold = rewardPointThreshold;
     }
 
-    public void addFoodItemToMenu() {
+    private void addFoodItemToMenu() {
         Scanner s = new Scanner(System.in);
         System.out.println("Enter item name: ");
         String name = s.next();
@@ -134,7 +113,7 @@ public class Restaurant implements User {
         System.out.println(newFood);
     }
 
-    public void editFoodItem() {
+    private void editFoodItem() {
         this.printMenu();
         System.out.println("Enter code of food item to edit");
         Scanner s = new Scanner(System.in);
@@ -180,7 +159,7 @@ public class Restaurant implements User {
 
     }
 
-    public void printRewards() {
+    private void printRewards() {
         System.out.println("Reward Points: " + this.getRewardPoints());
     }
 
@@ -190,18 +169,21 @@ public class Restaurant implements User {
         }
     }
 
-    public void setDiscountOnOverallBill() {
+    protected void setDiscountOnOverallBill() {
         System.out.println("You cannot set a discount. Please upgrade your restaurant type to set discount.");
     }
 
+    @Override
     public void showUserName() {
         System.out.println(this.getName());
     }
 
+    @Override
     public void showUserDetails() {
         System.out.println(this.getName() + ", " + this.getAddress() + ", " + this.getNumberOfOrders());
     }
 
+    @Override
     public void showUserMenu() {
         Scanner s = new Scanner(System.in);
         boolean flag = true;
@@ -248,12 +230,13 @@ public class Restaurant implements User {
         this.setBalance(this.getBalance() + orderValue);
     }
 
-    public void addRewardPoints(int x){
+    @Override
+    public void addRewardPoints(int x) {
         this.setRewardPoints(this.getRewardPoints() + x);
     }
 
-    public void decreaseQuantity(HashMap<Integer, FoodItem> hash){
-        for (FoodItem item : hash.values()){
+    public void decreaseQuantity(HashMap<Integer, FoodItem> hash) {
+        for (FoodItem item : hash.values()) {
             this.getMenu().get(item.getId()).decreaseQuantity(item.getQuantity());
         }
     }

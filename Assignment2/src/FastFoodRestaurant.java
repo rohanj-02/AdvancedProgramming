@@ -1,22 +1,22 @@
 import java.util.Scanner;
 
 public class FastFoodRestaurant extends Restaurant {
-    public FastFoodRestaurant(String name, String address, FoodDeliveryApp app) {
-        super(name, address, app);
+    public FastFoodRestaurant(String name, String address) {
+        super(name, address);
         this.setPercentDiscount(0);
-        this.setDiscount(50);
-        this.setRewardPointPerX(25);
-        this.setRewardPointThreshold(200);
+        this.setDiscount(0);
+        this.setRewardPointPerX(10);
+        this.setRewardPointThreshold(150);
     }
 
     @Override
     public void showUserDetails() {
-        System.out.println(this.getName() + "(FastFood), " + this.getAddress() + ", " + this.getNumberOfOrders());
+        System.out.println(this.getName() + " (FastFood), " + this.getAddress() + ", " + this.getNumberOfOrders());
     }
 
     @Override
     public void showUserName() {
-        System.out.println(this.getName() + "(FastFood)");
+        System.out.println(this.getName() + " (FastFood)");
     }
 
     @Override

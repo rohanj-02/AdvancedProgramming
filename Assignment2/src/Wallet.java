@@ -3,15 +3,15 @@ public class Wallet {
     private int rewardPoints;
 
     public Wallet(float amount) {
-        this.setAmount(amount);
-        this.setRewardPoints(0);
+        this.amount = amount;
+        this.rewardPoints = 0;
     }
 
     public float getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    private void setAmount(float amount) {
         this.amount = amount;
     }
 
@@ -19,7 +19,7 @@ public class Wallet {
         return this.rewardPoints;
     }
 
-    public void setRewardPoints(int rewardPoints) {
+    private void setRewardPoints(int rewardPoints) {
         this.rewardPoints = rewardPoints;
     }
 

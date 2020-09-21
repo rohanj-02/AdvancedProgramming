@@ -2,15 +2,15 @@ import java.util.HashMap;
 
 public class Order {
     private static int COUNT = 1;
-    private Restaurant restaurant;
     private final int ID;
     private final String customerName;
-    private float price;
     private final int customerDiscount;
-    private int restaurantPercentDiscount;
-    private int restaurantDiscount;
     private final int deliveryCharge;
     private final HashMap<Integer, FoodItem> foodList;
+    private Restaurant restaurant;
+    private float price;
+    private int restaurantPercentDiscount;
+    private int restaurantDiscount;
 
     public Order(Customer customer, int customerDiscount, int deliveryCharge) {
         this.customerName = customer.getName();
@@ -37,15 +37,15 @@ public class Order {
         return ID;
     }
 
-    public String getCustomerName() {
+    private String getCustomerName() {
         return customerName;
     }
 
-    public float getPrice() {
+    private float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    private void setPrice(float price) {
         this.price = price;
     }
 
@@ -57,47 +57,47 @@ public class Order {
         return foodList;
     }
 
-    public int getCustomerDiscount() {
+    private int getCustomerDiscount() {
         return customerDiscount;
     }
 
-    public int getRestaurantPercentDiscount() {
+    private int getRestaurantPercentDiscount() {
         return restaurantPercentDiscount;
     }
 
-    public void setRestaurantPercentDiscount(int restaurantPercentDiscount) {
+    private void setRestaurantPercentDiscount(int restaurantPercentDiscount) {
         this.restaurantPercentDiscount = restaurantPercentDiscount;
     }
 
-    public int getRestaurantDiscount() {
+    private int getRestaurantDiscount() {
         return restaurantDiscount;
     }
 
-    public void setRestaurantDiscount(int restaurantDiscount) {
+    private void setRestaurantDiscount(int restaurantDiscount) {
         this.restaurantDiscount = restaurantDiscount;
     }
 
     public void addFoodItem(FoodItem item) {
-        if(this.getFoodList().containsKey(item.getId())){
+        if (this.getFoodList().containsKey(item.getId())) {
             this.getFoodList().get(item.getId()).increaseQuantity(item.getQuantity());
-        }else{
+        } else {
             this.getFoodList().put(item.getId(), item);
         }
     }
 
     @Override
     public String toString() {
-        String orderSummary = "Order Summary : \nOrder ID: " + this.getID() + "\n";
-        orderSummary += "Restaurant: " + this.getRestaurant().getName() + "\nCustomer: " + this.getCustomerName();
-        orderSummary += "\nOrder Price: " + this.getPrice() + "/-\nDelivery Charge: " + this.getDeliveryCharge() + "/-\n";
-        orderSummary += "Food items ordered: \n";
+        StringBuilder orderSummary = new StringBuilder("Order Summary : \nOrder ID: " + this.getID() + "\n");
+        orderSummary.append("Restaurant: ").append(this.getRestaurant().getName()).append("\nCustomer: ").append(this.getCustomerName());
+        orderSummary.append("\nOrder Price: ").append(this.getPrice()).append("/-\nDelivery Charge: ").append(this.getDeliveryCharge()).append("/-\n");
+        orderSummary.append("Food items ordered: \n");
         for (FoodItem food : this.getFoodList().values()) {
-            orderSummary += food + "\n";
+            orderSummary.append(food).append("\n");
         }
-        return orderSummary;
+        return orderSummary.toString();
     }
 
-    public float calculatePrice() {
+    private float calculatePrice() {
         float price = 0;
         for (FoodItem item : getFoodList().values()) {
             float priceTemp = item.getPrice() * (100 - (float) item.getOffer()) / 100;
@@ -131,9 +131,9 @@ public class Order {
         }
     }
 
-    public int getNumberOfItems(){
+    public int getNumberOfItems() {
         int number = 0;
-        for(FoodItem item : this.getFoodList().values()){
+        for (FoodItem item : this.getFoodList().values()) {
             number += item.getQuantity();
         }
         return number;
