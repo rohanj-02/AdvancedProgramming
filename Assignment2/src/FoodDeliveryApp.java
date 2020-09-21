@@ -121,4 +121,16 @@ public class FoodDeliveryApp {
         int customerSelected = s.nextInt();
         return (Customer) this.getCustomerList().get(customerSelected - 1);
     }
+
+    public void checkout(Customer customer, Restaurant restaurant, Order order){
+        customer.deductBalance(order.getOrderValue() + order.getDeliveryCharge());
+        int rewards = restaurant.calculateRewardValue(order.getOrderValue());
+        restaurant.addRewardPoints(rewards);
+        restaurant.increaseNumberOfOrders();
+        restaurant.addBalance((float)(order.getOrderValue()*0.99));
+        this.addToBalance((float)(order.getOrderValue()*0.01));
+        customer.addRewardPoints(rewards);
+        this.addToDeliveryCharge(order.getDeliveryCharge());
+
+    }
 }

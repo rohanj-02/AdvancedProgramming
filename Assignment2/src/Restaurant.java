@@ -248,15 +248,7 @@ public class Restaurant implements User {
         this.setBalance(this.getBalance() + orderValue);
     }
 
-    public void payApp(float charges) {
-        this.getApp().addToBalance(charges);
-    }
-
-    public void checkout(float orderValue) {
-        this.setRewardPoints(this.getRewardPoints() + this.calculateRewardValue(orderValue));
-        this.increaseNumberOfOrders();
-        //TODO DELETE FOOD ITEMS and choose item quantity less than specified
-        this.addBalance(orderValue);
-        this.payApp((float) (orderValue * 0.01));
+    public void addRewardPoints(int x){
+        this.setRewardPoints(this.getRewardPoints() + x);
     }
 }

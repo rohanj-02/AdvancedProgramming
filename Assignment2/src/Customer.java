@@ -170,18 +170,23 @@ public class Customer implements User {
             int next = s.nextInt();
             if (next == 1) {
                 System.out.println("Successfully placed order for INR " + (this.getCart().getOrderValue() + this.getCart().getDeliveryCharge()) + "/-");
-                this.getWallet().deductBalance((this.getCart().getOrderValue() + this.getCart().getDeliveryCharge()));
-                int rewards = this.getRestaurant().calculateRewardValue(this.getCart().getOrderValue());
-                this.getRestaurant().checkout(this.getCart().getOrderValue());
-                this.getWallet().addRewardPoints(rewards);
-                //1 % payment to restaurant
-                this.getApp().addToDeliveryCharge(this.getCart().getDeliveryCharge());
+
+                this.getApp().checkout(this, this.getRestaurant(), this.getCart());
+
                 this.addToPastOrders(this.getCart());
                 this.initialiseCart();
             }
         } else {
             System.out.println("Empty Cart! Please add items to continue. ");
         }
+    }
+
+    public void deductBalance(float x){
+        this.getWallet().deductBalance(x);
+    }
+
+    public void addRewardPoints(int x){
+        this.getWallet().addRewardPoints(x);
     }
 
     private void printRecentOrders() {
