@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class AuthenticRestaurant extends Restaurant{
 
     public AuthenticRestaurant(String name, String address, FoodDeliveryApp app) {
@@ -18,5 +20,13 @@ public class AuthenticRestaurant extends Restaurant{
         System.out.println(this.getName() + "(Authentic)");
     }
 
+
+    @Override
+    public void setDiscountOnOverallBill(){
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter overall discount to apply : ");
+        int next = s.nextInt();
+        this.setPercentDiscount(next);
+    }
 
 }

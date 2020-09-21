@@ -6,7 +6,7 @@ public class FoodItem {
     private int offer;
     final private String restaurantName;
     final private int id;
-    static private int COUNT = 0;
+    static private int COUNT = 1;
 
     public String getName() {
         return name;

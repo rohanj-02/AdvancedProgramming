@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class FastFoodRestaurant extends Restaurant{
     public FastFoodRestaurant(String name, String address, FoodDeliveryApp app) {
         super(name, address, app);
@@ -16,4 +18,13 @@ public class FastFoodRestaurant extends Restaurant{
     public void showUserName(){
         System.out.println(this.getName() + "(FastFood)");
     }
+
+    @Override
+    public void setDiscountOnOverallBill(){
+        Scanner s = new Scanner(System.in);
+        System.out.println("Enter overall discount to apply : ");
+        int next = s.nextInt();
+        this.setPercentDiscount(next);
+    }
+
 }

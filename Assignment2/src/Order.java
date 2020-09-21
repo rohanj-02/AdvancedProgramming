@@ -82,6 +82,7 @@ public class Order {
 
     @Override
     public String toString() {
+
         return "Order{" +
                 "restaurant=" + getRestaurant() +
                 ", customer=" + getCustomer() +
@@ -111,7 +112,7 @@ public class Order {
         if(foodPrice > 200){
             foodPrice -= this.getCustomerDiscount();
         }
-        return foodPrice + this.getDeliveryCharge();
+        return foodPrice;
         //TODO CHeck if getOrderValue inclusive of delivery charge or not
     }
 

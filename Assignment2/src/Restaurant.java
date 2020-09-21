@@ -127,10 +127,12 @@ public class Restaurant implements User {
         int offer = s.nextInt();
         FoodItem newFood = new FoodItem(name, price, quantity, category, offer, this.getName());
         this.getMenu().put(newFood.getId(), newFood);
+        System.out.println(newFood);
     }
 
     public void editFoodItem() {
         this.printMenu();
+        System.out.println("Enter code of food item to edit");
         Scanner s = new Scanner(System.in);
         int option = s.nextInt();
         FoodItem selectedItem = this.getMenu().get(option);
@@ -168,6 +170,7 @@ public class Restaurant implements User {
                 selectedItem.setOffer(newOffer);
                 break;
         }
+        System.out.println(selectedItem);
 
     }
 
@@ -197,6 +200,12 @@ public class Restaurant implements User {
         Scanner s = new Scanner(System.in);
         boolean flag = true;
         while(flag){
+            System.out.println("Welcome " + this.getName());
+            System.out.println("1. Add Item");
+            System.out.println("2. Edit Item");
+            System.out.println("3. Print Rewards");
+            System.out.println("4. Discount on Bill Value ");
+            System.out.println("5. Exit");
             int option = s.nextInt();
             switch(option){
                 case 1:
@@ -226,7 +235,7 @@ public class Restaurant implements User {
     }
 
     public int calculateRewardValue(float orderValue){
-        return (int)(orderValue % this.getRewardPointThreshold()) * this.getRewardPointPerX();
+        return (int)(orderValue / this.getRewardPointThreshold()) * this.getRewardPointPerX();
     }
 
     public void addBalance(float orderValue){

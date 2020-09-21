@@ -48,6 +48,9 @@ public class FoodDeliveryApp {
     public FoodDeliveryApp(String name) {
         this.name = name;
         this.accountBalance = 0;
+        this.deliveryCharges = 0;
+        this.restaurantList = new ArrayList<>();
+        this.customerList = new ArrayList<>();
     }
 
     public void populate() {
@@ -72,7 +75,7 @@ public class FoodDeliveryApp {
         }
     }
     public void showCustomerList(){
-        int i = 0;
+        int i = 1;
         for(Customer customer: customerList){
             System.out.print(i + ". ");
             i++;
@@ -83,6 +86,8 @@ public class FoodDeliveryApp {
     public void addToBalance(float x){
         this.setAccountBalance(this.getAccountBalance() + x);
     }
+
+    public void addToDeliveryCharge(int x){this.setDeliveryCharges(this.getDeliveryCharges() + x);}
 
     public void showUser(User user){
         user.showUserMenu();
@@ -115,6 +120,8 @@ public class FoodDeliveryApp {
                     this.showUser(this.customerList.get(customerSelected - 1));
                     break;
                 case 3:
+                    System.out.println("1. Customer List");
+                    System.out.println("2. Restaurant List");
                     int choice = s.nextInt();
                     if(choice == 1){
                         this.showCustomerList();
@@ -125,10 +132,11 @@ public class FoodDeliveryApp {
                         choice = s.nextInt();
                         this.printUserDetails(this.restaurantList.get(choice - 1));
                     }
-
+                    break;
                 case 4:
                     System.out.println("Total Company Balance - INR " + this.getAccountBalance() + "/- " );
                     System.out.println("Total Delivery Charges Collected - INR " + this.getDeliveryCharges() + "/-");
+                    break;
                 case 5:
                     System.out.println("Thank you for using " + this.getName());
                     appOpen = false;
