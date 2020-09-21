@@ -119,12 +119,14 @@ public class Restaurant implements User {
         Scanner s = new Scanner(System.in);
         System.out.println("Enter item name: ");
         String name = s.next();
+        name += s.nextLine();
         System.out.println("Enter item price: ");
         int price = s.nextInt();
         System.out.println("Enter item quantity: ");
         int quantity = s.nextInt();
         System.out.println("Enter item category: ");
         String category = s.next();
+        category += s.nextLine();
         System.out.println("Enter item offer: ");
         int offer = s.nextInt();
         FoodItem newFood = new FoodItem(name, price, quantity, category, offer, this.getName(), 0);
@@ -149,6 +151,7 @@ public class Restaurant implements User {
             case 1:
                 System.out.println("Enter new name: ");
                 String newName = s.next();
+                newName += s.nextLine();
                 selectedItem.setName(newName);
                 break;
             case 2:
@@ -164,6 +167,7 @@ public class Restaurant implements User {
             case 4:
                 System.out.println("Enter new category: ");
                 String newCategory = s.next();
+                newCategory += s.nextLine();
                 selectedItem.setCategory(newCategory);
                 break;
             case 5:
