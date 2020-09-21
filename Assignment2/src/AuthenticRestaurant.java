@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class AuthenticRestaurant extends Restaurant{
+public class AuthenticRestaurant extends Restaurant {
 
     public AuthenticRestaurant(String name, String address, FoodDeliveryApp app) {
         super(name, address, app);
@@ -11,18 +11,18 @@ public class AuthenticRestaurant extends Restaurant{
     }
 
     @Override
-    public void showUserDetails(){
+    public void showUserDetails() {
         System.out.println(this.getName() + "(Authentic), " + this.getAddress() + ", " + this.getNumberOfOrders());
     }
 
     @Override
-    public void showUserName(){
+    public void showUserName() {
         System.out.println(this.getName() + "(Authentic)");
     }
 
 
     @Override
-    public void setDiscountOnOverallBill(){
+    public void setDiscountOnOverallBill() {
         Scanner s = new Scanner(System.in);
         System.out.println("Enter overall discount to apply : ");
         int next = s.nextInt();

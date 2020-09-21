@@ -1,8 +1,10 @@
 public interface User {
-//    public void displayMenu();
+    //    public void displayMenu();
 //    public void addRewardPoints(float x);
-    public void showUserName();
-    public void showUserMenu();
-    public void showUserDetails();
+    void showUserName();
+
+    void showUserMenu();
+
+    void showUserDetails();
 
 }

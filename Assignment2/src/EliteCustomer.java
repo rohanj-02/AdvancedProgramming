@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-
-public class EliteCustomer extends Customer{
+public class EliteCustomer extends Customer {
     public EliteCustomer(String name, String address, FoodDeliveryApp app) {
         super(name, address, app);
         this.setDeliveryCharge(0);
@@ -8,12 +6,12 @@ public class EliteCustomer extends Customer{
     }
 
     @Override
-    public void showUserName(){
+    public void showUserName() {
         System.out.println(this.getName() + "(Elite)");
     }
 
     @Override
-    public void showUserDetails(){
+    public void showUserDetails() {
         System.out.println(this.getName() + "(Elite), " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
     }
 

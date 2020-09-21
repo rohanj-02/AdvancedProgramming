@@ -1,12 +1,23 @@
 public class FoodItem {
+    static private int COUNT = 1;
+    final private String restaurantName;
+    final private int id;
     private String name;
     private int price;
     private int quantity;
     private String category;
     private int offer;
-    final private String restaurantName;
-    final private int id;
-    static private int COUNT = 1;
+
+    public FoodItem(String name, int price, int quantity, String category, int offer, String restaurantName) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
+        this.offer = offer;
+        this.restaurantName = restaurantName;
+        this.id = COUNT;
+        COUNT++;
+    }
 
     public String getName() {
         return name;
@@ -65,16 +76,5 @@ public class FoodItem {
                 this.getQuantity() + " " +
                 this.getOffer() + "% off " +
                 this.getCategory();
-    }
-
-    public FoodItem(String name, int price, int quantity, String category, int offer, String restaurantName) {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.category = category;
-        this.offer = offer;
-        this.restaurantName = restaurantName;
-        this.id = COUNT;
-        COUNT++;
     }
 }

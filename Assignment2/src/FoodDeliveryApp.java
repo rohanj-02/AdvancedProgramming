@@ -3,13 +3,21 @@ import java.util.Scanner;
 
 public class FoodDeliveryApp {
 
+    private final String name;
     private ArrayList<Restaurant> restaurantList;
     private ArrayList<Customer> customerList;
     private float accountBalance;
     private int deliveryCharges;
-    private final String name;
 
-    public String getName(){
+    public FoodDeliveryApp(String name) {
+        this.name = name;
+        this.accountBalance = 0;
+        this.deliveryCharges = 0;
+        this.restaurantList = new ArrayList<>();
+        this.customerList = new ArrayList<>();
+    }
+
+    public String getName() {
         return this.name;
     }
 
@@ -45,20 +53,12 @@ public class FoodDeliveryApp {
         this.deliveryCharges = deliveryCharges;
     }
 
-    public FoodDeliveryApp(String name) {
-        this.name = name;
-        this.accountBalance = 0;
-        this.deliveryCharges = 0;
-        this.restaurantList = new ArrayList<>();
-        this.customerList = new ArrayList<>();
-    }
-
     public void populate() {
-        this.getCustomerList().add( new EliteCustomer("Rohan", "Delhi", this));
-        this.getCustomerList().add( new SpecialCustomer("Customer 2", "Pune", this));
-        this.getCustomerList().add( new Customer("Dhruv", "Delhi", this));
-        this.getCustomerList().add( new Customer("John Doe", "Mumbai", this));
-        this.getCustomerList().add( new EliteCustomer("Jane Doe", "Kolkata", this));
+        this.getCustomerList().add(new EliteCustomer("Rohan", "Delhi", this));
+        this.getCustomerList().add(new SpecialCustomer("Customer 2", "Pune", this));
+        this.getCustomerList().add(new Customer("Dhruv", "Delhi", this));
+        this.getCustomerList().add(new Customer("John Doe", "Mumbai", this));
+        this.getCustomerList().add(new EliteCustomer("Jane Doe", "Kolkata", this));
         this.getRestaurantList().add(new AuthenticRestaurant("Faasos", "Delhi", this));
         this.getRestaurantList().add(new Restaurant("Theobroma", "Delhi", this));
         this.getRestaurantList().add(new Restaurant("Bikanervala", "Delhi", this));
@@ -66,49 +66,52 @@ public class FoodDeliveryApp {
         this.getRestaurantList().add(new FastFoodRestaurant("Dominos", "India", this));
     }
 
-    public void showRestaurantList(){
+    public void showRestaurantList() {
         int i = 1;
-        for(Restaurant restaurant: restaurantList){
+        for (Restaurant restaurant : restaurantList) {
             System.out.print(i + ". ");
             i++;
             restaurant.showUserName();
         }
     }
-    public void showCustomerList(){
+
+    public void showCustomerList() {
         int i = 1;
-        for(Customer customer: customerList){
+        for (Customer customer : customerList) {
             System.out.print(i + ". ");
             i++;
             customer.showUserName();
         }
     }
 
-    public void addToBalance(float x){
+    public void addToBalance(float x) {
         this.setAccountBalance(this.getAccountBalance() + x);
     }
 
-    public void addToDeliveryCharge(int x){this.setDeliveryCharges(this.getDeliveryCharges() + x);}
+    public void addToDeliveryCharge(int x) {
+        this.setDeliveryCharges(this.getDeliveryCharges() + x);
+    }
 
-    public void showUser(User user){
+    public void showUser(User user) {
         user.showUserMenu();
     }
 
-    public void printUserDetails(User user){
+    public void printUserDetails(User user) {
         user.showUserDetails();
     }
 
     public void showWelcomeScreen() {
         boolean appOpen = true;
         Scanner s = new Scanner(System.in);
-        while(appOpen){
-            System.out.println("Welcome to " + this.getName()+ ":");
+        while (appOpen) {
+            System.out.println("Welcome to " + this.getName() + ":");
             System.out.println("1. Enter as Restaurant Owner");
             System.out.println("2. Enter as Customer");
             System.out.println("3. Check User Details");
             System.out.println("4. Company Account Details");
             System.out.println("5. Exit");
             int option = s.nextInt();
-            switch (option){
+            switch (option) {
                 case 1:
                     this.showRestaurantList();
                     int restaurantSelected = s.nextInt();
@@ -123,18 +126,18 @@ public class FoodDeliveryApp {
                     System.out.println("1. Customer List");
                     System.out.println("2. Restaurant List");
                     int choice = s.nextInt();
-                    if(choice == 1){
+                    if (choice == 1) {
                         this.showCustomerList();
                         choice = s.nextInt();
                         this.printUserDetails(this.customerList.get(choice - 1));
-                    }else if(choice == 2){
+                    } else if (choice == 2) {
                         this.showRestaurantList();
                         choice = s.nextInt();
                         this.printUserDetails(this.restaurantList.get(choice - 1));
                     }
                     break;
                 case 4:
-                    System.out.println("Total Company Balance - INR " + this.getAccountBalance() + "/- " );
+                    System.out.println("Total Company Balance - INR " + this.getAccountBalance() + "/- ");
                     System.out.println("Total Delivery Charges Collected - INR " + this.getDeliveryCharges() + "/-");
                     break;
                 case 5:

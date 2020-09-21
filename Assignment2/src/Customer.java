@@ -14,6 +14,18 @@ public class Customer implements User {
     private int customerDiscount;
     private int deliveryCharge;
 
+    public Customer(String name, String address, FoodDeliveryApp app) {
+        this.setName(name);
+        this.setAddress(address);
+        this.setPastOrders(new ArrayList<>());
+        this.setWallet(new Wallet(1000));
+        this.setApp(app);
+        this.setRestaurant(null);
+    }
+
+    public Customer() {
+    }
+
     public Wallet getWallet() {
         return wallet;
     }
@@ -84,19 +96,6 @@ public class Customer implements User {
 
     public void setApp(FoodDeliveryApp app) {
         this.app = app;
-    }
-
-    public Customer(String name, String address, FoodDeliveryApp app) {
-        this.setName(name);
-        this.setAddress(address);
-        this.setPastOrders(new ArrayList<>());
-        this.setWallet(new Wallet(1000));
-        this.setApp(app);
-        this.setRestaurant(null);
-//        this.setCurrentOrder(null);
-    }
-
-    public Customer() {
     }
 
     public void addFoodItemToCart(FoodItem newItem) {
