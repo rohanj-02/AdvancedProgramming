@@ -2,6 +2,8 @@ import java.util.HashMap;
 
 public class Order {
     private Restaurant restaurant;
+    private int ID;
+    private static int COUNT = 1;
     private Customer customer;
     private float price;
     private int customerDiscount;
@@ -16,6 +18,8 @@ public class Order {
         this.setDeliveryCharge(deliveryCharge);
         this.setFoodList(new HashMap<>());
         this.setPrice(0);
+        this.ID = COUNT;
+        COUNT++;
     }
 
     public Order() {
@@ -29,6 +33,14 @@ public class Order {
         this.restaurant = restaurant;
         this.setRestaurantPercentDiscount(restaurant.getPercentDiscount());
         this.setRestaurantDiscount(restaurant.getDiscount());
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public Customer getCustomer() {
@@ -93,14 +105,14 @@ public class Order {
 
     @Override
     public String toString() {
-
-        return "Order{" +
-                "restaurant=" + getRestaurant() +
-                ", customer=" + getCustomer() +
-                ", price=" + getPrice() +
-                ", deliveryCharge=" + getDeliveryCharge() +
-                ", foodList=" + getFoodList() +
-                '}';
+        String orderSummary = "Order Summary : \nOrder ID: " + this.getID() + "\n";
+        orderSummary += "Restaurant: " + this.getRestaurant().getName() + "\nCustomer: " + this.getCustomer().getName();
+        orderSummary += "\nOrder Price: " + this.getPrice() + "/-\nDelivery Charge: " + this.getDeliveryCharge() + "/-\n";
+        orderSummary += "Food items ordered: \n";
+        for(FoodItem food: this.getFoodList().values()){
+            orderSummary += food + "\n";
+        }
+        return orderSummary;
     }
 
     public float calculatePrice() {
@@ -123,8 +135,8 @@ public class Order {
         if (foodPrice > 200) {
             foodPrice -= this.getCustomerDiscount();
         }
+        this.price = foodPrice;
         return foodPrice;
-        //TODO CHeck if getOrderValue inclusive of delivery charge or not
     }
 
     public void deleteFoodItem(int foodItemId) {

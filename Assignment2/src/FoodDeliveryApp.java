@@ -54,16 +54,29 @@ public class FoodDeliveryApp {
     }
 
     public void populate() {
-        this.getCustomerList().add(new EliteCustomer("Rohan", "Delhi", this));
-        this.getCustomerList().add(new SpecialCustomer("Customer 2", "Pune", this));
-        this.getCustomerList().add(new Customer("Dhruv", "Delhi", this));
-        this.getCustomerList().add(new Customer("John Doe", "Mumbai", this));
-        this.getCustomerList().add(new EliteCustomer("Jane Doe", "Kolkata", this));
-        this.getRestaurantList().add(new AuthenticRestaurant("Faasos", "Delhi", this));
-        this.getRestaurantList().add(new Restaurant("Theobroma", "Delhi", this));
-        this.getRestaurantList().add(new Restaurant("Bikanervala", "Delhi", this));
-        this.getRestaurantList().add(new FastFoodRestaurant("InstaPizza", "Delhi", this));
-        this.getRestaurantList().add(new FastFoodRestaurant("Dominos", "India", this));
+//        this.getCustomerList().add(new EliteCustomer("Rohan", "Delhi", this));
+//        this.getCustomerList().add(new SpecialCustomer("Customer 2", "Pune", this));
+//        this.getCustomerList().add(new Customer("Dhruv", "Delhi", this));
+//        this.getCustomerList().add(new Customer("John Doe", "Mumbai", this));
+//        this.getCustomerList().add(new EliteCustomer("Jane Doe", "Kolkata", this));
+//        this.getRestaurantList().add(new AuthenticRestaurant("Faasos", "Delhi", this));
+//        this.getRestaurantList().add(new Restaurant("Theobroma", "Delhi", this));
+//        this.getRestaurantList().add(new Restaurant("Bikanervala", "Delhi", this));
+//        this.getRestaurantList().add(new FastFoodRestaurant("InstaPizza", "Delhi", this));
+//        this.getRestaurantList().add(new FastFoodRestaurant("Dominos", "India", this));
+
+        this.getCustomerList().add(new EliteCustomer("Ram", "Delhi", this));
+        this.getCustomerList().add(new EliteCustomer("Sam", "Pune", this));
+        this.getCustomerList().add(new SpecialCustomer("Tim", "Delhi", this));
+        this.getCustomerList().add(new Customer("Kim", "Mumbai", this));
+        this.getCustomerList().add(new Customer("Jim", "Kolkata", this));
+        this.getRestaurantList().add(new AuthenticRestaurant("Shah", "Delhi", this));
+        this.getRestaurantList().add(new Restaurant("Ravi's", "Delhi", this));
+        this.getRestaurantList().add(new AuthenticRestaurant("The Chinese", "Delhi", this));
+        this.getRestaurantList().add(new FastFoodRestaurant("Wang's", "Delhi", this));
+        this.getRestaurantList().add(new Restaurant("Paradise", "India", this));
+
+
     }
 
     public void showRestaurantList() {

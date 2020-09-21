@@ -8,15 +8,20 @@ public class FoodItem {
     private String category;
     private int offer;
 
-    public FoodItem(String name, int price, int quantity, String category, int offer, String restaurantName) {
+    public FoodItem(String name, int price, int quantity, String category, int offer, String restaurantName, int id) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.category = category;
         this.offer = offer;
         this.restaurantName = restaurantName;
-        this.id = COUNT;
-        COUNT++;
+        if(id == 0){
+            this.id = COUNT;
+            COUNT++;
+        }else{
+            this.id = id;
+        }
+
     }
 
     public String getName() {

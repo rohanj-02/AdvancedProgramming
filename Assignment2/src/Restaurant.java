@@ -127,7 +127,7 @@ public class Restaurant implements User {
         String category = s.next();
         System.out.println("Enter item offer: ");
         int offer = s.nextInt();
-        FoodItem newFood = new FoodItem(name, price, quantity, category, offer, this.getName());
+        FoodItem newFood = new FoodItem(name, price, quantity, category, offer, this.getName(), 0);
         this.getMenu().put(newFood.getId(), newFood);
         System.out.println(newFood);
     }
