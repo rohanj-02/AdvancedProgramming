@@ -127,6 +127,7 @@ public class FoodDeliveryApp {
         int rewards = restaurant.calculateRewardValue(order.getOrderValue());
         restaurant.addRewardPoints(rewards);
         restaurant.increaseNumberOfOrders();
+        restaurant.decreaseQuantity(order.getFoodList());
         restaurant.addBalance((float)(order.getOrderValue()*0.99));
         this.addToBalance((float)(order.getOrderValue()*0.01));
         customer.addRewardPoints(rewards);

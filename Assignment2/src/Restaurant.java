@@ -251,4 +251,10 @@ public class Restaurant implements User {
     public void addRewardPoints(int x){
         this.setRewardPoints(this.getRewardPoints() + x);
     }
+
+    public void decreaseQuantity(HashMap<Integer, FoodItem> hash){
+        for (FoodItem item : hash.values()){
+            this.getMenu().get(item.getId()).decreaseQuantity(item.getQuantity());
+        }
+    }
 }

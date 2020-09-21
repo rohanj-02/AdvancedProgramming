@@ -140,9 +140,14 @@ public class Customer implements User {
         System.out.println("Enter item quantity");
         int quantity = s.nextInt();
         FoodItem itemSelected = menu.get(option);
+        if(itemSelected.getQuantity() >= quantity){
+            this.addFoodItemToCart(new FoodItem(itemSelected.getName(), itemSelected.getPrice(), quantity, itemSelected.getCategory(), itemSelected.getOffer(), itemSelected.getRestaurantName(), itemSelected.getId()));
+            System.out.println("Items added to cart.");
+        }
+        else{
+            System.out.println("Quantity greater than available! ");
+        }
 
-        this.addFoodItemToCart(new FoodItem(itemSelected.getName(), itemSelected.getPrice(), quantity, itemSelected.getCategory(), itemSelected.getOffer(), itemSelected.getRestaurantName(), itemSelected.getId()));
-        System.out.println("Items added to cart.");
     }
 
     private void checkout() {
@@ -169,7 +174,7 @@ public class Customer implements User {
             System.out.println("2. Exit");
             int next = s.nextInt();
             if (next == 1) {
-                System.out.println("Successfully placed order for INR " + (this.getCart().getOrderValue() + this.getCart().getDeliveryCharge()) + "/-");
+                System.out.println("Order placed for " + this.getCart().getNumberOfItems() + " items for INR " + (this.getCart().getOrderValue() + this.getCart().getDeliveryCharge()) + "/-");
 
                 this.getApp().checkout(this, this.getRestaurant(), this.getCart());
 

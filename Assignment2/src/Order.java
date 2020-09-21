@@ -78,7 +78,11 @@ public class Order {
     }
 
     public void addFoodItem(FoodItem item) {
-        this.getFoodList().put(item.getId(), item);
+        if(this.getFoodList().containsKey(item.getId())){
+            this.getFoodList().get(item.getId()).increaseQuantity(item.getQuantity());
+        }else{
+            this.getFoodList().put(item.getId(), item);
+        }
     }
 
     @Override
@@ -127,5 +131,12 @@ public class Order {
         }
     }
 
+    public int getNumberOfItems(){
+        int number = 0;
+        for(FoodItem item : this.getFoodList().values()){
+            number += item.getQuantity();
+        }
+        return number;
+    }
 
 }

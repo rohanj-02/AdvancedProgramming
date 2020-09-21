@@ -83,4 +83,10 @@ public class FoodItem {
                 this.getCategory();
     }
 
+    public void increaseQuantity(int x){
+        this.setQuantity(this.getQuantity() + x);
+    }
+    public void decreaseQuantity(int x){
+        this.increaseQuantity(-1 * x);
+    }
 }
