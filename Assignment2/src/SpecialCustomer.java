@@ -4,6 +4,15 @@ public class SpecialCustomer extends Customer{
         this.setDeliveryCharge(20);
         this.setCustomerDiscount(25);
     }
+    @Override
+    public void showUserName(){
+        System.out.println(this.getName() + "(Special)");
+    }
+
+    @Override
+    public void showUserDetails(){
+        System.out.println(this.getName() + "(Special), " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
+    }
 
 }
 

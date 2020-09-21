@@ -3,5 +3,6 @@ public interface User {
 //    public void addRewardPoints(float x);
     public void showUserName();
     public void showUserMenu();
+    public void showUserDetails();
 
 }

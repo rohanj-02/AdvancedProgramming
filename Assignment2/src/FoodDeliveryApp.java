@@ -51,15 +51,31 @@ public class FoodDeliveryApp {
     }
 
     public void populate() {
+        this.getCustomerList().add( new EliteCustomer("Rohan", "Delhi", this));
+        this.getCustomerList().add( new SpecialCustomer("Customer 2", "Pune", this));
+        this.getCustomerList().add( new Customer("Dhruv", "Delhi", this));
+        this.getCustomerList().add( new Customer("John Doe", "Mumbai", this));
+        this.getCustomerList().add( new EliteCustomer("Jane Doe", "Kolkata", this));
+        this.getRestaurantList().add(new AuthenticRestaurant("Faasos", "Delhi", this));
+        this.getRestaurantList().add(new Restaurant("Theobroma", "Delhi", this));
+        this.getRestaurantList().add(new Restaurant("Bikanervala", "Delhi", this));
+        this.getRestaurantList().add(new FastFoodRestaurant("InstaPizza", "Delhi", this));
+        this.getRestaurantList().add(new FastFoodRestaurant("Dominos", "India", this));
     }
 
     public void showRestaurantList(){
+        int i = 1;
         for(Restaurant restaurant: restaurantList){
+            System.out.print(i + ". ");
+            i++;
             restaurant.showUserName();
         }
     }
     public void showCustomerList(){
+        int i = 0;
         for(Customer customer: customerList){
+            System.out.print(i + ". ");
+            i++;
             customer.showUserName();
         }
     }
@@ -69,16 +85,11 @@ public class FoodDeliveryApp {
     }
 
     public void showUser(User user){
-        //user menu
-        //TODO See this
+        user.showUserMenu();
     }
 
-    public void printCustomerDetails(Customer customer){
-        //TODO
-    }
-
-    public void printRestaurantDetails(Restaurant restaurant){
-        //TODO
+    public void printUserDetails(User user){
+        user.showUserDetails();
     }
 
     public void showWelcomeScreen() {
@@ -108,11 +119,11 @@ public class FoodDeliveryApp {
                     if(choice == 1){
                         this.showCustomerList();
                         choice = s.nextInt();
-                        this.printCustomerDetails(this.customerList.get(choice - 1));
+                        this.printUserDetails(this.customerList.get(choice - 1));
                     }else if(choice == 2){
                         this.showRestaurantList();
                         choice = s.nextInt();
-                        this.printRestaurantDetails(this.restaurantList.get(choice - 1));
+                        this.printUserDetails(this.restaurantList.get(choice - 1));
                     }
 
                 case 4:

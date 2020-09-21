@@ -109,7 +109,13 @@ public class Customer implements User{
         }
     }
 
-    public void showUserName(){}
+    public void showUserName(){
+        System.out.println(this.getName());
+    }
+
+    public void showUserDetails(){
+        System.out.println(this.getName() + ", " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
+    }
 
     public void showUserMenu(){
         Scanner s = new Scanner(System.in);
@@ -175,6 +181,7 @@ public class Customer implements User{
             this.getRestaurant().checkout(this.getCart().getOrderValue());
             this.getWallet().addRewardPoints(rewards);
             //1 % payment to restaurant
+            this.getApp().addToBalance(this.getCart().getDeliveryCharge());
             this.addToPastOrders(this.getCart());
             this.setCart(null);
         }

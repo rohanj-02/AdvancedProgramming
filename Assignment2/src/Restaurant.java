@@ -185,7 +185,13 @@ public class Restaurant implements User {
         System.out.println("You cannot set a discount. Please upgrade your restaurant type to set discount.");
     }
 
-    public void showUserName(){}
+    public void showUserName(){
+        System.out.println(this.getName());
+    }
+
+    public void showUserDetails(){
+        System.out.println(this.getName() + ", " + this.getAddress() + ", " + this.getNumberOfOrders());
+    }
 
     public void showUserMenu(){
         Scanner s = new Scanner(System.in);

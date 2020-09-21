@@ -7,4 +7,15 @@ public class EliteCustomer extends Customer{
         this.setCustomerDiscount(50);
     }
 
+    @Override
+    public void showUserName(){
+        System.out.println(this.getName() + "(Elite)");
+    }
+
+    @Override
+    public void showUserDetails(){
+        System.out.println(this.getName() + "(Elite), " + this.getAddress() + ", " + this.getWallet().getAmount() + "/-");
+    }
+
 }
+
