@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.Set;
 
 abstract public class Player implements Cloneable{
     public final static int INITIAL_HP = 500;
@@ -53,9 +56,43 @@ abstract public class Player implements Cloneable{
         }
     }
 
-    public int vote(ArrayList<? extends Player> playerList){
-        int max = playerList.size();
-        return (int) (Math.random() * max + 1);
+    public int getIntegerInputInRange(ArrayList<Integer> range, String inputMsg, String errorMsg){
+        Scanner s = new Scanner(System.in);
+        boolean flag = true;
+        int input = 0;
+        do {
+            System.out.println(inputMsg);
+            try {
+                input = Integer.parseInt(s.next());
+                for(Integer i : range){
+                    if (input == i) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if(flag){
+                    System.out.println(errorMsg);
+                }
+            } catch (InputMismatchException | NumberFormatException e) {
+                System.out.println("That was not a number.  Please try again.");
+                flag = true;
+            }
+        }while (flag);
+        return input;
+    }
+
+
+    public int vote(Set<Integer> playerKeys){
+        ArrayList<Integer> playerIDs = new ArrayList<>(playerKeys);
+        if(this.isUser()){
+            String inputMsg = "Select a player to vote out: ";
+            String errorMsg = "The selected player does not exist!";
+            return this.getIntegerInputInRange(playerIDs, inputMsg, errorMsg);
+        }
+        else{
+            int max = playerIDs.size();
+            return playerIDs.get((int) (Math.random() * max));
+        }
     }
 
     public void addHealthPoints(int recovery){
@@ -75,7 +112,7 @@ abstract public class Player implements Cloneable{
             System.out.println("Error: Cannot decrease HP by a negative number");
         }
     }
-    abstract public int specialVote(ArrayList<Player> playerArrayList, ArrayList<Player> specialList);
+//    abstract public int specialVote(ArrayList<Player> playerArrayList, ArrayList<Player> specialList);
 
     public Player clone(){
         try{

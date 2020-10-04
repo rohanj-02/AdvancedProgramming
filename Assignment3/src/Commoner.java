@@ -9,10 +9,10 @@ public class Commoner extends Player {
         super(name);
     }
 
-    @Override
-    public int specialVote(ArrayList<Player> playerArrayList, ArrayList<Player> specialList) {
-        return 0;
-    }
+//    @Override
+//    public int specialVote(ArrayList<Player> playerArrayList, ArrayList<Player> specialList) {
+//        return 0;
+//    }
 
     @Override
     public String toString() {

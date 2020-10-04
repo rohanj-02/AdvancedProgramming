@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 public class Mafia extends Player {
 
-    @Override
-    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
-        return this.vote(playerList);
-    }
+//    @Override
+//    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
+//        return this.vote(playerList);
+//    }
 
     public Mafia(String name){
         super(name);
@@ -56,6 +56,7 @@ public class Mafia extends Player {
                 numberOfNonZero++;
             }
         }
+        int initialHP = HP;
         if(numberOfNonZero == 0){
             return 0;
         }
@@ -79,6 +80,9 @@ public class Mafia extends Player {
             }
             HP = overflow;
             if(numberOfNonZero == 0){
+                flag = false;
+            }
+            if(totalDamage == initialHP){
                 flag = false;
             }
         }while(flag);

@@ -2,10 +2,11 @@ import java.util.ArrayList;
 
 public class Detective extends Player{
 
-    @Override
-    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
-        return this.vote(playerList);
-    }
+//    @Override
+//    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
+//        return 0;
+////        return this.vote(playerList);
+//    }
 
     public Detective(String name){
         super(name);

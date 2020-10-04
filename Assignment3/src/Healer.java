@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 public class Healer extends Player{
 
-    @Override
-    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
-        return this.vote(playerList);
-    }
+//    @Override
+//    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
+//        return this.vote(playerList);
+//    }
 
     public Healer(String name){
         super(name);

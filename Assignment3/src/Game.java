@@ -171,10 +171,86 @@ public class Game {
         this.toTest = -1;
     }
 
+    public void removePlayerFromGame(int index){
+        //TODO Change all remove to isAlive = false
+        //So that can print details in the end
+        MafiaController.removePlayer(index);
+        DetectiveController.removePlayer(index);
+        HealerController.removePlayer(index);
+        CommonerController.removePlayer(index);
+        players.remove(index);
+    }
+
+    public int vote(){
+        int count = 0;
+        do{
+            if(count == 0){
+                count = 1;
+            }
+            else{
+                System.out.println("Voting tie! Vote in round again.");
+            }
+            HashMap<Integer, Integer> votes = new HashMap<>();
+            for(Integer i : players.keySet()) {
+                votes.put(i, 0);
+            }
+            for(Integer i : players.keySet()){
+                Player player = players.get(i);
+                HashSet<Integer> available = new HashSet<>(players.keySet());
+                available.remove(i);
+                int selection = player.vote(available);
+                votes.replace(selection, votes.get(selection) + 1);
+            }
+            Map.Entry<Integer, Integer> maxEntry = null;
+            int numberOfEntry = 0;
+            for(Map.Entry<Integer, Integer> entry : votes.entrySet()){
+                if(maxEntry == null || entry.getValue() > maxEntry.getValue()){
+                    maxEntry = entry;
+                    numberOfEntry = 1;
+                }
+                else if(entry.getValue().equals(maxEntry.getValue())){
+                    maxEntry = entry;
+                    numberOfEntry += 1;
+                }
+            }
+            if(numberOfEntry == 1){
+                return maxEntry.getKey();
+            }
+        }while(true);
+    }
+
+    public void displayAlive()
+    {
+        StringBuilder s = new StringBuilder(players.keySet().size() + " players are remaining: ");
+        for(Player player: players.values()){
+            s.append(player.getName()).append(", ");
+        }
+        System.out.println(s + " are alive.");
+    }
+
     public void playRound(){
         this.initialiseVariables();
+        this.displayAlive();
         this.preVote();
-        
+        int noDeath = -1;
+        for(Integer i : players.keySet()){
+            Player player = players.get(i);
+            if(!MafiaController.hasPlayer(i)){
+                if(player.getHealthPoints() == 0){
+                    System.out.println(player.getName() + " has died.");
+                    noDeath = i;
+                }
+            }
+        }
+        if(noDeath == -1){
+            //Came once randomly Maybe coz of healer.. Implement debug docs for clarity 
+            System.out.println("No one died.");
+        }
+        else{
+            this.removePlayerFromGame(noDeath);
+        }
+        int toRemove = this.vote();
+        this.removePlayerFromGame(toRemove);
     }
 
     public ArrayList<Integer> generateRandomSequence(int n) {

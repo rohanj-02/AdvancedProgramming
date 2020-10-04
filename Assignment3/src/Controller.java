@@ -69,7 +69,7 @@ public class Controller<T> {
             choice = this.getIntegerInput(playerIDs, inputMsg, errorMsg);
         }
         else{
-            int temp = (int)(Math.random() * playerIDs.size() + 1);
+            int temp = (int)(Math.random() * playerIDs.size());
             choice = playerIDs.get(temp);
             System.out.println(computerMsg);
         }
@@ -83,5 +83,11 @@ public class Controller<T> {
             }
         }
         return false;
+    }
+
+    public void removePlayer(int index){
+        if(this.hasPlayer(index)){
+            players.remove(index);
+        }
     }
 }
