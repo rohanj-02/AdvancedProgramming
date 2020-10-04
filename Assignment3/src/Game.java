@@ -2,11 +2,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class Game {
+    private static final int HEAL_AMOUNT = 500;
     private final Controller<Mafia> MafiaController;
     private final Controller<Healer> HealerController;
     private final Controller<Detective> DetectiveController;
     private final Controller<Commoner> CommonerController;
     private final HashMap<Integer, Player> players;
+
+    private int toHeal;
+    private int toKill;
+    private int toTest;
 
     public Game() {
         players = new HashMap<>();
@@ -119,15 +124,57 @@ public class Game {
         control.setPlayers(group);
     }
 
-    public void preVote(){
-        int toKill = MafiaController.preVote(new HashSet<Integer>(players.keySet()));
-        int toHeal = HealerController.preVote(new HashSet<Integer>(players.keySet()));
-        int toTest = DetectiveController.preVote(new HashSet<Integer>(players.keySet()));
-
-        System.out.println("In Game");
-        for(Integer i : players.keySet()){
-            System.out.println(i);
+    private Set<Integer> getPreVoteList(Controller controller){
+        Set<Integer> list = new HashSet<>(players.keySet());
+        Set<Integer> controllerPlayers = controller.getPlayerIndex();
+        for(Integer i: controllerPlayers){
+            list.remove(i);
         }
+        return list;
+    }
+
+    public void preVote(){
+        String inputMsg = "Choose a target: ";
+        String computerMsg = "Mafias have chosen their target.";
+        String errorMsg = "You cannot choose a Mafia as a target. ";
+        toKill = MafiaController.preVote(getPreVoteList(MafiaController), inputMsg, computerMsg, errorMsg);
+
+        int damage = Mafia.decreaseHP(players.get(toKill).getHealthPoints(), MafiaController.getPlayers());
+        players.get(toKill).decreaseHealthPoints(damage);
+
+
+        inputMsg = "Choose a player to test: ";
+        computerMsg = "Detectives have chosen a player to test.";
+        errorMsg = "You cannot test a Detective.";
+        toTest = DetectiveController.preVote(getPreVoteList(DetectiveController), inputMsg, computerMsg, errorMsg);
+
+        if(DetectiveController.isHasUser()){
+            if(MafiaController.hasPlayer(toTest)){
+                System.out.println("Player" + toTest + " is a Mafia.");
+            }
+            else{
+                System.out.println("Player" + toTest + " is not a Mafia.");
+            }
+        }
+
+        inputMsg = "Choose a player to heal: ";
+        computerMsg = "Healers have chosen someone to heal.";
+        errorMsg = "Cannot heal a player that is out of the game. ";
+        toHeal = HealerController.preVote(new HashSet<Integer>(players.keySet()), inputMsg, computerMsg, errorMsg);
+
+        players.get(toHeal).addHealthPoints(HEAL_AMOUNT);
+    }
+
+    public void initialiseVariables(){
+        this.toKill = -1;
+        this.toHeal = -1;
+        this.toTest = -1;
+    }
+
+    public void playRound(){
+        this.initialiseVariables();
+        this.preVote();
+        
     }
 
     public ArrayList<Integer> generateRandomSequence(int n) {

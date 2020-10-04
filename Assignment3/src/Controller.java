@@ -12,6 +12,9 @@ public class Controller<T> {
         return players;
     }
 
+    public Set<Integer> getPlayerIndex(){
+        return players.keySet();
+    }
     public void setPlayers(HashMap<Integer, T> players) {
         this.players = players;
     }
@@ -24,12 +27,13 @@ public class Controller<T> {
         this.hasUser = hasUser;
     }
 
-    public int getIntegerInput(ArrayList<Integer> range){
+    public int getIntegerInput(ArrayList<Integer> range, String inputMsg, String errorMsg){
         Scanner s = new Scanner(System.in);
         boolean flag = true;
         int input = 0;
         do {
         try {
+            System.out.println(inputMsg);
                 input = Integer.parseInt(s.next());
                 for(Integer i : range){
                     if (input == i) {
@@ -38,7 +42,16 @@ public class Controller<T> {
                     }
                 }
                 if(flag){
-                    System.out.println("Player" + input + "is already dead or doesn't exist! Please enter a valid playerID.");
+                    boolean temp = true;
+                    for(Integer i : players.keySet()){
+                        if(input == i){
+                            temp = false;
+                            System.out.println(errorMsg);
+                        }
+                    }
+                    if(temp){
+                        System.out.println("You cannot choose a player that is out of the game.");
+                    }
                 }
             } catch (InputMismatchException | NumberFormatException e) {
                 System.out.println("That was not a number.  Please try again.");
@@ -48,19 +61,27 @@ public class Controller<T> {
         return input;
     }
 
-    public int preVote(Set<Integer> playerKeys) {
-        for(Integer i: players.keySet()){
-            playerKeys.remove(i);
-        }
+    public int preVote(Set<Integer> playerKeys, String inputMsg, String computerMsg, String errorMsg) {
         ArrayList<Integer> playerIDs = new ArrayList<>(playerKeys);
         int choice;
+        //add check for null list
         if(this.isHasUser()){
-            choice = this.getIntegerInput(playerIDs);
+            choice = this.getIntegerInput(playerIDs, inputMsg, errorMsg);
         }
         else{
             int temp = (int)(Math.random() * playerIDs.size() + 1);
             choice = playerIDs.get(temp);
+            System.out.println(computerMsg);
         }
         return choice;
+    }
+
+    public boolean hasPlayer(int index){
+        for(Integer i : players.keySet()){
+            if(i == index){
+                return true;
+            }
+        }
+        return false;
     }
 }
