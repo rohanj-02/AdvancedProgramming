@@ -243,12 +243,14 @@ public class Game {
             }
         }
         if(noDeath == -1){
-            //Came once randomly Maybe coz of healer.. Implement debug docs for clarity 
+            //Came once randomly Maybe coz of healer.. Implement debug docs for clarity
             System.out.println("No one died.");
         }
         else{
             this.removePlayerFromGame(noDeath);
         }
+        // TODO If mafia found out by detective user then directly vote person out.
+        // TODO Game end condition
         int toRemove = this.vote();
         this.removePlayerFromGame(toRemove);
     }
