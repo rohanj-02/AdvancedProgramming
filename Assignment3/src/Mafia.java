@@ -8,13 +8,13 @@ public class Mafia extends Player {
 //    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
 //        return this.vote(playerList);
 //    }
-
+    public final static int INITIAL_HP = 2500;
     public Mafia(String name){
-        super(name);
+        super(name, INITIAL_HP);
     }
 
     public Mafia(String name, Boolean isUser){
-        super(name, isUser);
+        super(name, isUser, INITIAL_HP);
     }
 
     @Override

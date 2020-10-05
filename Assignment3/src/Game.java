@@ -12,6 +12,8 @@ public class Game {
     private int toHeal;
     private int toKill;
     private int toTest;
+    private int toVote;
+    private int userID;
 
     public Game() {
         players = new HashMap<>();
@@ -26,7 +28,7 @@ public class Game {
         boolean flag = true;
         int input = 0;
         do {
-            System.out.println("Enter the number of players: ");
+            System.out.print("Enter the number of players: ");
             try {
                 input = Integer.parseInt(s.next());
                 if(input >= 6){
@@ -48,7 +50,7 @@ public class Game {
         boolean flag = true;
         int input = 0;
         do {
-            System.out.println(inputMsg);
+            System.out.print(inputMsg);
             try {
                 input = Integer.parseInt(s.next());
                 for(Integer i : range){
@@ -69,17 +71,21 @@ public class Game {
     }
 
     public void initialisePlayers() {
-
+        System.out.println("Welcome To Mafia");
         int numberOfPlayers = this.getIntegerInput();
         ArrayList<Integer> randomSequence = generateRandomSequence(numberOfPlayers);
         ArrayList<Integer> inputMenuRange = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5));
-        int userChoice = this.getIntegerInputInRange(inputMenuRange, "Choose a Character\n1)Mafia\n2)Detective\n3)Healer\n4)Commoner\n5)Assign Randomly", "Choose a valid input");
+        int userChoice = this.getIntegerInputInRange(inputMenuRange, "Choose a Character\n1)Mafia\n2)Detective\n3)Healer\n4)Commoner\n5)Assign Randomly\n", "Enter a valid input");
 
         int i = 0;
         int numMafia = (int)numberOfPlayers/5;
         int numDetectives = (int)numberOfPlayers/5;
         int numHealers = Math.max(1, (int)numberOfPlayers/10);
         int numCommoners = numberOfPlayers - numMafia - numDetectives - numHealers;
+
+        if(userChoice == 5){
+            userChoice = (int)(Math.random() * 4 + 1);
+        }
 
         setController(randomSequence, 0, numMafia, userChoice == 1, MafiaController, Mafia.class);
         setController(randomSequence, numMafia, numDetectives, userChoice == 2, DetectiveController, Detective.class);
@@ -90,6 +96,19 @@ public class Game {
             System.out.println(p);
         }
 
+        if(MafiaController.isHasUser()){
+            MafiaController.displayOtherPlayers(userID, "mafia");
+        }
+        else if(DetectiveController.isHasUser()){
+            DetectiveController.displayOtherPlayers(userID, "detective");
+        }
+        else if(HealerController.isHasUser()){
+            HealerController.displayOtherPlayers(userID, "healer");
+        }
+        else{
+            System.out.println("You are " + players.get(userID) + ".");
+            System.out.println("You are a commoner.");
+        }
         //        HashMap<Integer, Mafia> mafia = new HashMap<>();
 //        for (; i < numberOfPlayers / 5; i++) {
 //            int index = randomSequence.get(i);
@@ -116,8 +135,9 @@ public class Game {
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 e.printStackTrace();
             }
-            if (hasUser) {
+            if (hasUser && i == startIndex) {
                 control.setHasUser(true);
+                this.userID = index;
             }
             group.put(index, (T) players.get(index));
         }
@@ -151,11 +171,13 @@ public class Game {
         if(DetectiveController.isHasUser()){
             if(MafiaController.hasPlayer(toTest)){
                 System.out.println("Player" + toTest + " is a Mafia.");
+                toVote = toTest;
             }
             else{
                 System.out.println("Player" + toTest + " is not a Mafia.");
             }
         }
+
 
         inputMsg = "Choose a player to heal: ";
         computerMsg = "Healers have chosen someone to heal.";
@@ -169,9 +191,10 @@ public class Game {
         this.toKill = -1;
         this.toHeal = -1;
         this.toTest = -1;
+        this.toVote = -1;
     }
 
-    public void removePlayerFromGame(int index){
+    public int removePlayerFromGame(int index){
         //TODO Change all remove to isAlive = false
         //So that can print details in the end
         MafiaController.removePlayer(index);
@@ -179,6 +202,7 @@ public class Game {
         HealerController.removePlayer(index);
         CommonerController.removePlayer(index);
         players.remove(index);
+        return this.checkGameEnd();
     }
 
     public int vote(){
@@ -221,17 +245,28 @@ public class Game {
 
     public void displayAlive()
     {
+//        int count = players.keySet().size();
+//        for(Player player: players.values()){
+//            if(player.isAlive()){
+//
+//            }
+//        }
         StringBuilder s = new StringBuilder(players.keySet().size() + " players are remaining: ");
         for(Player player: players.values()){
+//            if(count == 1){
+//
+//            }
+//            else if(count == players.keySet().size()){}
             s.append(player.getName()).append(", ");
         }
         System.out.println(s + " are alive.");
     }
 
-    public void playRound(){
+    public int playRound(){
         this.initialiseVariables();
         this.displayAlive();
         this.preVote();
+        System.out.println("--End of Actions--");
         int noDeath = -1;
         for(Integer i : players.keySet()){
             Player player = players.get(i);
@@ -247,12 +282,60 @@ public class Game {
             System.out.println("No one died.");
         }
         else{
-            this.removePlayerFromGame(noDeath);
+            int gameStatus = this.removePlayerFromGame(noDeath);
+            if(gameStatus != 0){
+                return gameStatus;
+            }
         }
-        // TODO If mafia found out by detective user then directly vote person out.
-        // TODO Game end condition
-        int toRemove = this.vote();
-        this.removePlayerFromGame(toRemove);
+        int toRemove;
+        if(DetectiveController.isHasUser() && toVote != -1){
+            toRemove = toVote;
+        }
+        else{
+            toRemove = this.vote();
+            System.out.println(players.get(toRemove).toString() + " was voted out.");
+        }
+        return this.removePlayerFromGame(toRemove);
+    }
+
+    public int checkGameEnd(){
+        if(MafiaController.numberOfAlive() == 0){
+            return 1;
+        }
+        else if(MafiaController.numberOfAlive() >= DetectiveController.numberOfAlive() + HealerController.numberOfAlive() + CommonerController.numberOfAlive()){
+            return 2;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public void displayPlayers(){
+        MafiaController.displayPlayers("Mafia");
+        DetectiveController.displayPlayers("Detective");
+        HealerController.displayPlayers("Healer");
+        CommonerController.displayPlayers("Commoner");
+    }
+
+    public void playGame(){
+        int count = 1;
+        while(true){
+            System.out.println("Round " + count + ":");
+            int status = this.playRound();
+            System.out.println("--End of round " + count + "--\n");
+            if(status == 1){
+                System.out.println("\nGame Over.\nThe Mafias Have Lost!");
+                this.displayPlayers();
+                break;
+            }
+            else if(status == 2){
+                System.out.println("\nGame Over.\nThe Mafias Have Won!");
+                this.displayPlayers();
+                break;
+            }
+            count++;
+        }
+
     }
 
     public ArrayList<Integer> generateRandomSequence(int n) {

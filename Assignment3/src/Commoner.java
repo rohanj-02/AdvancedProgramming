@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class Commoner extends Player {
-
+    public final static int INITIAL_HP = 1000;
     public Commoner(String name, Boolean isUser){
-        super(name, isUser);
+        super(name, isUser, INITIAL_HP);
     }
     public Commoner(String name){
-        super(name);
+        super(name, INITIAL_HP);
     }
 
 //    @Override

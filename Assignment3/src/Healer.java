@@ -6,13 +6,14 @@ public class Healer extends Player{
 //    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
 //        return this.vote(playerList);
 //    }
+public final static int INITIAL_HP = 800;
 
     public Healer(String name){
-        super(name);
+        super(name, INITIAL_HP);
     }
 
     public Healer(String name, Boolean isUser){
-        super(name, isUser);
+        super(name, isUser, INITIAL_HP);
     }
 
     @Override

@@ -17,6 +17,6 @@ public class Main {
 //        }while (input < 0 );
         Game mafia = new Game();
         mafia.initialisePlayers();
-        mafia.playRound();
+        mafia.playGame();
     }
 }

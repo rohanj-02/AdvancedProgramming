@@ -90,4 +90,60 @@ public class Controller<T> {
             players.remove(index);
         }
     }
+
+    public int numberOfAlive(){
+        //TODO
+        return players.size();
+    }
+
+    public void displayPlayers(String category){
+        if(players.size() > 1){
+            category = "were " + category + "s.";
+            StringBuilder s = new StringBuilder();
+            int count = players.size();
+            for(Map.Entry<Integer, T> player : players.entrySet()){
+                if(count == 1){
+                    s.append(" and ").append(player.getValue().toString());
+                }
+                else if (count == players.size()){
+                    s.append(player.getValue().toString());
+                }
+                else{
+                    s.append(", ").append(player.getValue().toString());
+                }
+                count --;
+            }
+            System.out.println(s + " " + category);
+        }
+        else{
+            StringBuilder s = new StringBuilder();
+            for(Map.Entry<Integer, T> player : players.entrySet()){
+                s.append(player.getValue().toString());
+            }
+            category = "was " + category + ".";
+            s.append(" ").append(category);
+            System.out.println(s);
+        }
+    }
+
+    public void displayOtherPlayers(int x, String type){
+
+        System.out.println("You are " + players.get(x).toString());
+        StringBuilder s = new StringBuilder("You are a " + type + ". Other " + type + "s are: [");
+        int count = 0;
+        for(Map.Entry<Integer, T> i : players.entrySet()){
+            if(i.getKey() != x){
+                if(count == 0){
+                    s.append(i.getValue().toString());
+                    count++;
+                }
+                else{
+                    s.append(", ").append(i.getValue().toString());
+                }
+            }
+        }
+        s.append("]");
+        System.out.println(s);
+    }
+
 }

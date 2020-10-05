@@ -4,25 +4,20 @@ import java.util.Scanner;
 import java.util.Set;
 
 abstract public class Player implements Cloneable{
-    public final static int INITIAL_HP = 500;
     private int healthPoints;
     private final String name;
     private boolean isAlive;
     private final boolean isUser;
 
-    public Player(String name) {
-        this(name, false);
+    public Player(String name, int INITIAL_HP) {
+        this(name, false, INITIAL_HP);
     }
 
-    public Player(String name, boolean isUser){
+    public Player(String name, boolean isUser, int INITIAL_HP){
         this.healthPoints = INITIAL_HP;
         this.isAlive = true;
         this.name = name;
         this.isUser = isUser;
-    }
-
-    public static int getInitialHp() {
-        return INITIAL_HP;
     }
 
     public String getName() {

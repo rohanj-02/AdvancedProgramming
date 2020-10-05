@@ -7,13 +7,13 @@ public class Detective extends Player{
 //        return 0;
 ////        return this.vote(playerList);
 //    }
-
+    public final static int INITIAL_HP = 800;
     public Detective(String name){
-        super(name);
+        super(name, INITIAL_HP);
     }
 
     public Detective(String name, Boolean isUser){
-        super(name, isUser);
+        super(name, isUser, INITIAL_HP);
     }
 
     @Override
