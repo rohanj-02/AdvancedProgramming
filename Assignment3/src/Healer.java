@@ -1,23 +1,25 @@
-import java.util.ArrayList;
+public class Healer extends Player {
 
-public class Healer extends Player{
-
-//    @Override
+    //    @Override
 //    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
 //        return this.vote(playerList);
 //    }
-public final static int INITIAL_HP = 800;
+    private final static int INITIAL_HP = 800;
 
-    public Healer(String name){
-        super(name, INITIAL_HP);
+    public Healer(String name) {
+        super(name, getInitialHp());
     }
 
-    public Healer(String name, Boolean isUser){
-        super(name, isUser, INITIAL_HP);
+    public Healer(String name, Boolean isUser) {
+        super(name, isUser, getInitialHp());
+    }
+
+    public static int getInitialHp() {
+        return INITIAL_HP;
     }
 
     @Override
-    public Healer clone(){
+    public Healer clone() {
         return (Healer) super.clone();
     }
 

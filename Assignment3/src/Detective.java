@@ -1,23 +1,26 @@
-import java.util.ArrayList;
+public class Detective extends Player {
 
-public class Detective extends Player{
-
-//    @Override
+    //    @Override
 //    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
 //        return 0;
 ////        return this.vote(playerList);
 //    }
-    public final static int INITIAL_HP = 800;
-    public Detective(String name){
-        super(name, INITIAL_HP);
+    private final static int INITIAL_HP = 800;
+
+    public Detective(String name) {
+        super(name, getInitialHp());
     }
 
-    public Detective(String name, Boolean isUser){
-        super(name, isUser, INITIAL_HP);
+    public Detective(String name, Boolean isUser) {
+        super(name, isUser, getInitialHp());
+    }
+
+    public static int getInitialHp() {
+        return INITIAL_HP;
     }
 
     @Override
-    public Detective clone(){
+    public Detective clone() {
         return (Detective) super.clone();
     }
 

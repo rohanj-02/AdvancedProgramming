@@ -1,14 +1,17 @@
-import java.util.ArrayList;
-
 public class Commoner extends Player {
-    public final static int INITIAL_HP = 1000;
-    public Commoner(String name, Boolean isUser){
-        super(name, isUser, INITIAL_HP);
-    }
-    public Commoner(String name){
-        super(name, INITIAL_HP);
+    private final static int INITIAL_HP = 1000;
+
+    public Commoner(String name, Boolean isUser) {
+        super(name, isUser, getInitialHp());
     }
 
+    public Commoner(String name) {
+        super(name, getInitialHp());
+    }
+
+    public static int getInitialHp() {
+        return INITIAL_HP;
+    }
 //    @Override
 //    public int specialVote(ArrayList<Player> playerArrayList, ArrayList<Player> specialList) {
 //        return 0;
