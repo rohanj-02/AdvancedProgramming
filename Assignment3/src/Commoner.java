@@ -14,12 +14,8 @@ public class Commoner extends Player {
     }
 
     @Override
-    public String toString() {
-        return "Player(Commoner){" +
-                "healthPoints=" + this.getHealthPoints() +
-                ", name='" + this.getName() + '\'' +
-                ", isAlive=" + this.isAlive() +
-                ", isUser=" + this.isUser() +
-                '}';
+    public Commoner clone() {
+        return (Commoner) super.clone();
     }
+
 }

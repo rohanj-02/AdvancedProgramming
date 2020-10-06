@@ -19,15 +19,6 @@ public class Healer extends Player {
         return (Healer) super.clone();
     }
 
-    @Override
-    public String toString() {
-        return "Player(Healer){" +
-                "healthPoints=" + this.getHealthPoints() +
-                ", name='" + this.getName() + '\'' +
-                ", isAlive=" + this.isAlive() +
-                ", isUser=" + this.isUser() +
-                '}';
-    }
 }
 
 

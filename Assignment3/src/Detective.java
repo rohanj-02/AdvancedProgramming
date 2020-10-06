@@ -19,13 +19,4 @@ public class Detective extends Player {
         return (Detective) super.clone();
     }
 
-    @Override
-    public String toString() {
-        return "Player(Detective){" +
-                "healthPoints=" + this.getHealthPoints() +
-                ", name='" + this.getName() + '\'' +
-                ", isAlive=" + this.isAlive() +
-                ", isUser=" + this.isUser() +
-                '}';
-    }
 }

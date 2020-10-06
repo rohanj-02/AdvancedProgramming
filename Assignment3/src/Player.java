@@ -3,7 +3,7 @@ import java.util.*;
 abstract public class Player implements Cloneable, Comparable<Player> {
     private final String name;
     private final boolean isUser;
-    private int healthPoints;
+    private float healthPoints;
     private boolean isAlive;
     private final int ID;
 
@@ -40,11 +40,11 @@ abstract public class Player implements Cloneable, Comparable<Player> {
         return isUser;
     }
 
-    protected int getHealthPoints() {
+    protected float getHealthPoints() {
         return healthPoints;
     }
 
-    protected void setHealthPoints(int healthPoints) {
+    protected void setHealthPoints(float healthPoints) {
         if (healthPoints < 0) {
             this.healthPoints = 0;
             this.setAlive(false);
@@ -56,17 +56,24 @@ abstract public class Player implements Cloneable, Comparable<Player> {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "healthPoints=" + getHealthPoints() +
-                ", name='" + getName() + '\'' +
-                ", isAlive=" + isAlive() +
-                ", isUser=" + isUser() +
-                '}';
+        // Development
+//        return "Player{" +
+//                "healthPoints=" + getHealthPoints() +
+//                ", name='" + getName() + '\'' +
+//                ", isAlive=" + isAlive() +
+//                ", isUser=" + isUser() +
+//                '}';
+        // Submission
+        String s = this.getName();
+        if(this.isUser()){
+            s += "[User]";
+        }
+        return s;
     }
 
     @Override
     public int compareTo(Player obj){
-        return this.getHealthPoints() - obj.getHealthPoints();
+        return (int)(this.getHealthPoints() - obj.getHealthPoints());
     }
 
     @Override
@@ -94,7 +101,7 @@ abstract public class Player implements Cloneable, Comparable<Player> {
         }
     }
 
-    public void addHealthPoints(int recovery) {
+    public void addHealthPoints(float recovery) {
         if (recovery >= 0) {
             this.setHealthPoints(this.getHealthPoints() + recovery);
         } else {
@@ -102,7 +109,7 @@ abstract public class Player implements Cloneable, Comparable<Player> {
         }
     }
 
-    public void decreaseHealthPoints(int damage) {
+    public void decreaseHealthPoints(float damage) {
         if (damage >= 0) {
             this.setHealthPoints(this.getHealthPoints() - damage);
         } else {

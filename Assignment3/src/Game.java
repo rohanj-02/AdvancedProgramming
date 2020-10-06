@@ -1,8 +1,10 @@
 import java.lang.reflect.InvocationTargetException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Game {
-    private static final int HEAL_AMOUNT = 500;
+    private static final float HEAL_AMOUNT = 500;
     private final Controller<Mafia> MafiaController;
     private final Controller<Healer> HealerController;
     private final Controller<Detective> DetectiveController;
@@ -23,7 +25,7 @@ public class Game {
         this.CommonerController = new Controller<>();
     }
 
-    public static int getHealAmount() {
+    public static float getHealAmount() {
         return HEAL_AMOUNT;
     }
 
@@ -87,8 +89,33 @@ public class Game {
         this.userID = userID;
     }
 
+    private <T extends Player> void setController(ArrayList<Integer> randomSequence, int startIndex, int numberOfEntries, boolean hasUser, Controller<T> control, Class<? extends Player> tclass) {
+        HashMap<Integer, T> group = new HashMap<>();
+        for (int i = startIndex; i < startIndex + numberOfEntries; i++) {
+            int index = randomSequence.get(i);
+            try {
+                this.getPlayers().put(index, tclass.getDeclaredConstructor(new Class[]{String.class, Boolean.class}).newInstance("Player" + index, hasUser && i == startIndex));
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+                e.printStackTrace();
+            }
+            if (hasUser && i == startIndex) {
+                control.setHasUser(true);
+                control.setUserID(index);
+                this.setUserID(index);
+            }
+            group.put(index, (T) this.getPlayers().get(index));
+        }
+        control.setPlayers(group);
+    }
 
-
+    public ArrayList<Integer> generateRandomSequence(int n) {
+        ArrayList<Integer> randomSequence = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            randomSequence.add(i + 1);
+        }
+        Collections.shuffle(randomSequence);
+        return randomSequence;
+    }
 
     public void initialisePlayers() {
         System.out.println("Welcome To Mafia");
@@ -130,25 +157,6 @@ public class Game {
         }
     }
 
-    private <T extends Player> void setController(ArrayList<Integer> randomSequence, int startIndex, int numberOfEntries, boolean hasUser, Controller<T> control, Class<? extends Player> tclass) {
-        HashMap<Integer, T> group = new HashMap<>();
-        for (int i = startIndex; i < startIndex + numberOfEntries; i++) {
-            int index = randomSequence.get(i);
-            try {
-                this.getPlayers().put(index, tclass.getDeclaredConstructor(new Class[]{String.class, Boolean.class}).newInstance("Player" + index, hasUser && i == startIndex));
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                e.printStackTrace();
-            }
-            if (hasUser && i == startIndex) {
-                control.setHasUser(true);
-                control.setUserID(index);
-                this.setUserID(index);
-            }
-            group.put(index, (T) this.getPlayers().get(index));
-        }
-        control.setPlayers(group);
-    }
-
     private Set<Integer> getPreVoteList(Controller<?> controller) {
         Set<Integer> list = new HashSet<>(this.getPlayers().keySet());
         Set<Integer> controllerPlayers = controller.getPlayerIndex();
@@ -171,7 +179,7 @@ public class Game {
         this.setToKill(this.getMafiaController().preVote(this.getPreVoteList(this.getMafiaController()), inputMsg, computerMsg, errorMsgNotInRange, errorMsg));
 
         if (getToKill() != -1) {
-            int damage = Mafia.decreaseHP(this.getPlayers().get(this.getToKill()).getHealthPoints(), this.getMafiaController().getAlivePlayers());
+            float damage = Mafia.decreaseHP(this.getPlayers().get(this.getToKill()).getHealthPoints(), this.getMafiaController().getAlivePlayers());
             this.getPlayers().get(this.getToKill()).decreaseHealthPoints(damage);
         }
 
@@ -284,9 +292,11 @@ public class Game {
     }
 
     public void displayHP() {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
         for (Player player : this.getPlayers().values()) {
             if (player.isAlive()) {
-                System.out.println(player.getName() + " " + player.getHealthPoints());
+                System.out.println(player.getName() + " " + df.format(player.getHealthPoints()));
             }
         }
     }
@@ -308,7 +318,6 @@ public class Game {
         }
         this.displayHP();
         if (noDeath == -1) {
-            //Came once randomly Maybe coz of healer.. Implement debug docs for clarity
             System.out.println("No one died.");
         } else {
             int gameStatus = this.removePlayerFromGame(noDeath);
@@ -364,12 +373,4 @@ public class Game {
 
     }
 
-    public ArrayList<Integer> generateRandomSequence(int n) {
-        ArrayList<Integer> randomSequence = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            randomSequence.add(i + 1);
-        }
-        Collections.shuffle(randomSequence);
-        return randomSequence;
-    }
 }
