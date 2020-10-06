@@ -108,7 +108,7 @@ public class Game {
         control.setPlayers(group);
     }
 
-    public ArrayList<Integer> generateRandomSequence(int n) {
+    private ArrayList<Integer> generateRandomSequence(int n) {
         ArrayList<Integer> randomSequence = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             randomSequence.add(i + 1);
@@ -171,7 +171,7 @@ public class Game {
         return list;
     }
 
-    public void preVote() {
+    private void preVote() {
         String inputMsg = "Choose a target: ";
         String computerMsg = "Mafias have chosen their target.\n";
         String errorMsg = "You cannot choose a Mafia as a target.\n";
@@ -213,19 +213,19 @@ public class Game {
         }
     }
 
-    public void initialiseVariables() {
+    private void initialiseVariables() {
         this.setToKill(-1);
         this.setToHeal(-1);
         this.setToTest(-1);
         this.setToVote(-1);
     }
 
-    public int removePlayerFromGame(int index) {
+    private int removePlayerFromGame(int index) {
         this.getPlayers().get(index).kill();
         return this.checkGameEnd();
     }
 
-    public int vote() {
+    private int vote() {
         int count = 0;
         HashSet<Integer> alivePlayers = new HashSet<>(this.getPlayers().keySet());
         for (Integer i : this.getPlayers().keySet()) {
@@ -268,7 +268,7 @@ public class Game {
         } while (true);
     }
 
-    public void displayAlive() {
+    private void displayAlive() {
         int count = 0;
         for (Player player : this.getPlayers().values()) {
             if (player.isAlive()) {
@@ -292,7 +292,7 @@ public class Game {
         System.out.println(s + " are alive.");
     }
 
-    public void displayHP() {
+    private void displayHP() {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
         for (Player player : this.getPlayers().values()) {
@@ -302,7 +302,7 @@ public class Game {
         }
     }
 
-    public int playRound() {
+    private int playRound() {
         this.initialiseVariables();
         this.displayAlive();
         this.preVote();
@@ -337,7 +337,7 @@ public class Game {
         return this.removePlayerFromGame(toRemove);
     }
 
-    public int checkGameEnd() {
+    private int checkGameEnd() {
         if (this.getMafiaController().numberOfAlive() == 0) {
             return 1;
         } else if (this.getMafiaController().numberOfAlive() >= this.getDetectiveController().numberOfAlive() + this.getHealerController().numberOfAlive() + this.getCommonerController().numberOfAlive()) {
@@ -347,7 +347,7 @@ public class Game {
         }
     }
 
-    public void displayPlayers() {
+    private void displayPlayers() {
         this.getMafiaController().displayPlayers("Mafia");
         this.getDetectiveController().displayPlayers("Detective");
         this.getHealerController().displayPlayers("Healer");
@@ -361,11 +361,11 @@ public class Game {
             int status = this.playRound();
             System.out.println("--End of round " + count + "--\n");
             if (status == 1) {
-                System.out.println("\nGame Over.\nThe Mafias Have Lost!");
+                System.out.println("Game Over.\nThe Mafias Have Lost!");
                 this.displayPlayers();
                 break;
             } else if (status == 2) {
-                System.out.println("\nGame Over.\nThe Mafias Have Won!");
+                System.out.println("Game Over.\nThe Mafias Have Won!");
                 this.displayPlayers();
                 break;
             }
@@ -375,3 +375,6 @@ public class Game {
     }
 
 }
+
+// Code written by Rohan Jain
+// 2019095

@@ -1,14 +1,16 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 abstract public class Player implements Cloneable, Comparable<Player> {
     private final String name;
     private final boolean isUser;
+    private final int ID;
     private float healthPoints;
     private boolean isAlive;
-    private final int ID;
 
     public Player(String name, int INITIAL_HP) {
-        this(name,  false, INITIAL_HP);
+        this(name, false, INITIAL_HP);
     }
 
     public Player(String name, boolean isUser, int INITIAL_HP) {
@@ -65,15 +67,15 @@ abstract public class Player implements Cloneable, Comparable<Player> {
 //                '}';
         // Submission
         String s = this.getName();
-        if(this.isUser()){
+        if (this.isUser()) {
             s += "[User]";
         }
         return s;
     }
 
     @Override
-    public int compareTo(Player obj){
-        return (int)(this.getHealthPoints() - obj.getHealthPoints());
+    public int compareTo(Player obj) {
+        return (int) (this.getHealthPoints() - obj.getHealthPoints());
     }
 
     @Override
@@ -122,3 +124,6 @@ abstract public class Player implements Cloneable, Comparable<Player> {
         this.setHealthPoints(0);
     }
 }
+
+// Code written by Rohan Jain
+// 2019095

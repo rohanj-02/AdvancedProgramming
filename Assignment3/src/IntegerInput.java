@@ -2,10 +2,6 @@ import java.util.*;
 
 public class IntegerInput {
 
-    public int getIntegerInputInRange(ArrayList<Integer> range, String inputMsg, String errorMsg) {
-        return getIntegerInputInRange(range, new HashSet<Integer>(), inputMsg, errorMsg, "");
-    }
-
     public int getIntegerInputInRange(ArrayList<Integer> range, Set<Integer> keys, String inputMsg, String errorMsgNotInRange, String errorMsgInKeys) {
         Scanner s = new Scanner(System.in);
         boolean flag = true;
@@ -28,7 +24,7 @@ public class IntegerInput {
                             System.out.print(errorMsgInKeys);
                         }
                     }
-                    if(temp){
+                    if (temp) {
                         System.out.print(errorMsgNotInRange);
                     }
                 }
@@ -40,6 +36,9 @@ public class IntegerInput {
         return input;
     }
 
+    public int getIntegerInputInRange(ArrayList<Integer> range, String inputMsg, String errorMsg) {
+        return getIntegerInputInRange(range, new HashSet<Integer>(), inputMsg, errorMsg, "");
+    }
 
     public int getIntegerInput(String inputMsg, String errorMsg, int min, int max) {
         Scanner s = new Scanner(System.in);
@@ -63,7 +62,10 @@ public class IntegerInput {
         return input;
     }
 
-    public int getIntegerInput(String inputMsg, String errorMsg, int min){
+    public int getIntegerInput(String inputMsg, String errorMsg, int min) {
         return this.getIntegerInput(inputMsg, errorMsg, min, Integer.MAX_VALUE);
     }
 }
+
+// Code written by Rohan Jain
+// 2019095

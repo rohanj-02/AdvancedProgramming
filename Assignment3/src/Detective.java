@@ -20,3 +20,6 @@ public class Detective extends Player {
     }
 
 }
+
+// Code written by Rohan Jain
+// 2019095
