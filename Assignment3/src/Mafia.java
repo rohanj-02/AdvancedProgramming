@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.TreeMap;
 
 public class Mafia extends Player {
@@ -17,23 +16,6 @@ public class Mafia extends Player {
         return INITIAL_HP;
     }
 
-    @Override
-    public Mafia clone() {
-        return (Mafia) super.clone();
-    }
-
-
-    public float targetDamage(float amount) {
-        if (amount <= this.getHealthPoints()) {
-            this.decreaseHealthPoints(amount);
-            return amount;
-        } else {
-            float damage = this.getHealthPoints();
-            this.decreaseHealthPoints(this.getHealthPoints());
-            return damage;
-        }
-    }
-
     public static float decreaseHP(float HP, TreeMap<Integer, Mafia> playerList) {
         boolean flag = true;
         int numberOfNonZero = 0;
@@ -50,13 +32,13 @@ public class Mafia extends Player {
         do {
             float healthPerMafia = HP / numberOfNonZero;
             float overflow = HP;
-                for (Mafia mafiaPlayer : playerList.values()) {
-                    if (mafiaPlayer.getHealthPoints() != 0) {
-                        float damage = mafiaPlayer.targetDamage(healthPerMafia);
-                        totalDamage += damage;
-                        overflow -= damage;
-                    }
+            for (Mafia mafiaPlayer : playerList.values()) {
+                if (mafiaPlayer.getHealthPoints() != 0) {
+                    float damage = mafiaPlayer.targetDamage(healthPerMafia);
+                    totalDamage += damage;
+                    overflow -= damage;
                 }
+            }
             numberOfNonZero = 0;
             for (Mafia player : playerList.values()) {
                 if (player.getHealthPoints() != 0) {
@@ -64,11 +46,27 @@ public class Mafia extends Player {
                 }
             }
             HP = overflow;
-            if (numberOfNonZero == 0 || (totalDamage <= initialHP + 1e-6 && totalDamage >= initialHP - 1e-6) || (overflow >= 0 - 1e-6 && overflow <= 0 + 1e-6)) {
+            if (numberOfNonZero == 0 || (totalDamage <= initialHP + 1e-6 && totalDamage >= initialHP - 1e-6) || (overflow >= 0 - 1e-6 && overflow <= 0 + 1e-6) || overflow == 0 || totalDamage == initialHP) {
                 flag = false;
             }
         } while (flag);
         return totalDamage;
+    }
+
+    @Override
+    public Mafia clone() {
+        return (Mafia) super.clone();
+    }
+
+    private float targetDamage(float amount) {
+        if (amount <= this.getHealthPoints()) {
+            this.decreaseHealthPoints(amount);
+            return amount;
+        } else {
+            float damage = this.getHealthPoints();
+            this.decreaseHealthPoints(this.getHealthPoints());
+            return damage;
+        }
     }
 
 }
