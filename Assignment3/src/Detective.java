@@ -1,10 +1,5 @@
 public class Detective extends Player {
 
-    //    @Override
-//    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
-//        return 0;
-////        return this.vote(playerList);
-//    }
     private final static int INITIAL_HP = 800;
 
     public Detective(String name) {

@@ -1,9 +1,5 @@
 public class Healer extends Player {
 
-    //    @Override
-//    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
-//        return this.vote(playerList);
-//    }
     private final static int INITIAL_HP = 800;
 
     public Healer(String name) {

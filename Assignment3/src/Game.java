@@ -16,11 +16,11 @@ public class Game {
     private int userID;
 
     public Game() {
-        players = new HashMap<>();
-        MafiaController = new Controller<>();
-        HealerController = new Controller<>();
-        DetectiveController = new Controller<>();
-        CommonerController = new Controller<>();
+        this.players = new HashMap<>();
+        this.MafiaController = new Controller<>();
+        this.HealerController = new Controller<>();
+        this.DetectiveController = new Controller<>();
+        this.CommonerController = new Controller<>();
     }
 
     public static int getHealAmount() {
@@ -87,59 +87,18 @@ public class Game {
         this.userID = userID;
     }
 
-    public int getIntegerInput() {
-        Scanner s = new Scanner(System.in);
-        boolean flag = true;
-        int input = 0;
-        do {
-            System.out.print("Enter the number of players: ");
-            try {
-                input = Integer.parseInt(s.next());
-                if (input >= 6) {
-                    flag = false;
-                }
-                if (flag) {
-                    System.out.println("The minimum number of players is 6.");
-                }
-            } catch (InputMismatchException | NumberFormatException e) {
-                System.out.println("That was not a number.  Please try again.");
-                flag = true;
-            }
-        } while (flag);
-        return input;
-    }
 
-    public int getIntegerInputInRange(ArrayList<Integer> range, String inputMsg, String errorMsg) {
-        Scanner s = new Scanner(System.in);
-        boolean flag = true;
-        int input = 0;
-        do {
-            System.out.print(inputMsg);
-            try {
-                input = Integer.parseInt(s.next());
-                for (Integer i : range) {
-                    if (input == i) {
-                        flag = false;
-                        break;
-                    }
-                }
-                if (flag) {
-                    System.out.println(errorMsg);
-                }
-            } catch (InputMismatchException | NumberFormatException e) {
-                System.out.println("That was not a number.  Please try again.");
-                flag = true;
-            }
-        } while (flag);
-        return input;
-    }
+
 
     public void initialisePlayers() {
         System.out.println("Welcome To Mafia");
-        int numberOfPlayers = this.getIntegerInput();
-        ArrayList<Integer> randomSequence = generateRandomSequence(numberOfPlayers);
+        String inputMsg = "Enter the number of players: ";
+        String errorMsg = "The minimum number of players is 6.\n";
+        IntegerInput in = new IntegerInput();
+        int numberOfPlayers = in.getIntegerInput(inputMsg, errorMsg, 6);
+        ArrayList<Integer> randomSequence = this.generateRandomSequence(numberOfPlayers);
         ArrayList<Integer> inputMenuRange = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
-        int userChoice = this.getIntegerInputInRange(inputMenuRange, "Choose a Character\n1)Mafia\n2)Detective\n3)Healer\n4)Commoner\n5)Assign Randomly\n", "Enter a valid input");
+        int userChoice = in.getIntegerInputInRange(inputMenuRange, "Choose a Character\n1)Mafia\n2)Detective\n3)Healer\n4)Commoner\n5)Assign Randomly\n", "Enter a valid input.\n");
 
         int numMafia = numberOfPlayers / 5;
         int numDetectives = numberOfPlayers / 5;
@@ -150,37 +109,25 @@ public class Game {
             userChoice = (int) (Math.random() * 4 + 1);
         }
 
-        setController(randomSequence, 0, numMafia, userChoice == 1, getMafiaController(), Mafia.class);
-        setController(randomSequence, numMafia, numDetectives, userChoice == 2, getDetectiveController(), Detective.class);
-        setController(randomSequence, numMafia + numDetectives, numHealers, userChoice == 3, getHealerController(), Healer.class);
-        setController(randomSequence, numberOfPlayers - numCommoners, numCommoners, userChoice == 4, getCommonerController(), Commoner.class);
+        this.setController(randomSequence, 0, numMafia, userChoice == 1, this.getMafiaController(), Mafia.class);
+        this.setController(randomSequence, numMafia, numDetectives, userChoice == 2, this.getDetectiveController(), Detective.class);
+        this.setController(randomSequence, numMafia + numDetectives, numHealers, userChoice == 3, this.getHealerController(), Healer.class);
+        this.setController(randomSequence, numberOfPlayers - numCommoners, numCommoners, userChoice == 4, this.getCommonerController(), Commoner.class);
 
-        for (Player p : getPlayers().values()) {
+        for (Player p : this.getPlayers().values()) {
             System.out.println(p);
         }
 
-        if (getMafiaController().isHasUser()) {
-            getMafiaController().displayOtherPlayers(getUserID(), "mafia");
-        } else if (getDetectiveController().isHasUser()) {
-            getDetectiveController().displayOtherPlayers(getUserID(), "detective");
-        } else if (getHealerController().isHasUser()) {
-            getHealerController().displayOtherPlayers(getUserID(), "healer");
+        if (this.getMafiaController().isHasUser()) {
+            this.getMafiaController().displayOtherPlayers(this.getUserID(), "mafia");
+        } else if (this.getDetectiveController().isHasUser()) {
+            this.getDetectiveController().displayOtherPlayers(this.getUserID(), "detective");
+        } else if (this.getHealerController().isHasUser()) {
+            this.getHealerController().displayOtherPlayers(this.getUserID(), "healer");
         } else {
-            System.out.println("You are " + getPlayers().get(getUserID()) + ".");
+            System.out.println("You are " + this.getPlayers().get(this.getUserID()) + ".");
             System.out.println("You are a commoner.");
         }
-        //        HashMap<Integer, Mafia> mafia = new HashMap<>();
-//        for (; i < numberOfPlayers / 5; i++) {
-//            int index = randomSequence.get(i);
-//            if (userChoice == 1 && i == 0) {
-//                players.put(index, new Mafia("Player" + index, true));
-//                MafiaController.setHasUser(true);
-//            }
-//            players.put(index, new Mafia("Player" + index));
-//            mafia.put(index, (Mafia) players.get(index));
-//        }
-//        MafiaController.setPlayers(mafia);
-//
     }
 
     private <T extends Player> void setController(ArrayList<Integer> randomSequence, int startIndex, int numberOfEntries, boolean hasUser, Controller<T> control, Class<? extends Player> tclass) {
@@ -188,7 +135,7 @@ public class Game {
         for (int i = startIndex; i < startIndex + numberOfEntries; i++) {
             int index = randomSequence.get(i);
             try {
-                getPlayers().put(index, tclass.getDeclaredConstructor(new Class[]{String.class, Boolean.class}).newInstance("Player" + index, hasUser && i == startIndex));
+                this.getPlayers().put(index, tclass.getDeclaredConstructor(new Class[]{String.class, Boolean.class}).newInstance("Player" + index, hasUser && i == startIndex));
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 e.printStackTrace();
             }
@@ -197,19 +144,19 @@ public class Game {
                 control.setUserID(index);
                 this.setUserID(index);
             }
-            group.put(index, (T) getPlayers().get(index));
+            group.put(index, (T) this.getPlayers().get(index));
         }
         control.setPlayers(group);
     }
 
     private Set<Integer> getPreVoteList(Controller<?> controller) {
-        Set<Integer> list = new HashSet<>(getPlayers().keySet());
+        Set<Integer> list = new HashSet<>(this.getPlayers().keySet());
         Set<Integer> controllerPlayers = controller.getPlayerIndex();
         for (Integer i : controllerPlayers) {
             list.remove(i);
         }
-        for (Integer i : getPlayers().keySet()) {
-            if (!getPlayers().get(i).isAlive()) {
+        for (Integer i : this.getPlayers().keySet()) {
+            if (!this.getPlayers().get(i).isAlive()) {
                 list.remove(i);
             }
         }
@@ -218,42 +165,43 @@ public class Game {
 
     public void preVote() {
         String inputMsg = "Choose a target: ";
-        String computerMsg = "Mafias have chosen their target.";
-        String errorMsg = "You cannot choose a Mafia as a target. ";
-        setToKill(getMafiaController().preVote(getPreVoteList(getMafiaController()), inputMsg, computerMsg, errorMsg));
+        String computerMsg = "Mafias have chosen their target.\n";
+        String errorMsg = "You cannot choose a Mafia as a target.\n";
+        String errorMsgNotInRange = "Player selected is already dead or does not exist. Please select an alive person\n";
+        this.setToKill(this.getMafiaController().preVote(this.getPreVoteList(this.getMafiaController()), inputMsg, computerMsg, errorMsgNotInRange, errorMsg));
 
         if (getToKill() != -1) {
-            int damage = Mafia.decreaseHP(getPlayers().get(getToKill()).getHealthPoints(), getMafiaController().getAlivePlayers());
-            getPlayers().get(getToKill()).decreaseHealthPoints(damage);
+            int damage = Mafia.decreaseHP(this.getPlayers().get(this.getToKill()).getHealthPoints(), this.getMafiaController().getAlivePlayers());
+            this.getPlayers().get(this.getToKill()).decreaseHealthPoints(damage);
         }
 
         inputMsg = "Choose a player to test: ";
-        computerMsg = "Detectives have chosen a player to test.";
-        errorMsg = "You cannot test a Detective.";
-        setToTest(getDetectiveController().preVote(getPreVoteList(getDetectiveController()), inputMsg, computerMsg, errorMsg));
+        computerMsg = "Detectives have chosen a player to test.\n";
+        errorMsg = "You cannot test a Detective.\n";
+        this.setToTest(this.getDetectiveController().preVote(this.getPreVoteList(this.getDetectiveController()), inputMsg, computerMsg, errorMsgNotInRange, errorMsg));
 
-        if (getDetectiveController().isHasUser()) {
-            if (getMafiaController().hasPlayer(getToTest())) {
-                System.out.println("Player" + getToTest() + " is a Mafia.");
-                setToVote(getToTest());
+        if (this.getDetectiveController().isHasUser()) {
+            if (this.getMafiaController().hasPlayer(this.getToTest())) {
+                System.out.println("Player" + this.getToTest() + " is a Mafia.");
+                this.setToVote(this.getToTest());
             } else {
-                System.out.println("Player" + getToTest() + " is not a Mafia.");
+                System.out.println("Player" + this.getToTest() + " is not a Mafia.");
             }
         }
 
         inputMsg = "Choose a player to heal: ";
-        computerMsg = "Healers have chosen someone to heal.";
-        errorMsg = "Cannot heal a player that is out of the game. ";
-        HashSet<Integer> list = new HashSet<>(getPlayers().keySet());
-        for (Integer i : getPlayers().keySet()) {
-            if (!getPlayers().get(i).isAlive()) {
+        computerMsg = "Healers have chosen someone to heal.\n";
+        errorMsg = "Cannot heal a player that is out of the game.\n";
+        HashSet<Integer> list = new HashSet<>(this.getPlayers().keySet());
+        for (Integer i : this.getPlayers().keySet()) {
+            if (!this.getPlayers().get(i).isAlive()) {
                 list.remove(i);
             }
         }
-        setToHeal(getHealerController().preVote(list, inputMsg, computerMsg, errorMsg));
+        this.setToHeal(this.getHealerController().preVote(list, inputMsg, computerMsg, errorMsgNotInRange, errorMsg));
 
-        if (getToHeal() != -1) {
-            getPlayers().get(getToHeal()).addHealthPoints(getHealAmount());
+        if (this.getToHeal() != -1) {
+            this.getPlayers().get(this.getToHeal()).addHealthPoints(getHealAmount());
         }
     }
 
@@ -265,21 +213,15 @@ public class Game {
     }
 
     public int removePlayerFromGame(int index) {
-        //TODO Change all remove to isAlive = false
-        //So that can print details in the end
-//        MafiaController.removePlayer(index);
-//        DetectiveController.removePlayer(index);
-//        HealerController.removePlayer(index);
-//        CommonerController.removePlayer(index);
-        getPlayers().get(index).kill();
+        this.getPlayers().get(index).kill();
         return this.checkGameEnd();
     }
 
     public int vote() {
         int count = 0;
-        HashSet<Integer> alivePlayers = new HashSet<>(getPlayers().keySet());
-        for (Integer i : getPlayers().keySet()) {
-            if (!getPlayers().get(i).isAlive()) {
+        HashSet<Integer> alivePlayers = new HashSet<>(this.getPlayers().keySet());
+        for (Integer i : this.getPlayers().keySet()) {
+            if (!this.getPlayers().get(i).isAlive()) {
                 alivePlayers.remove(i);
             }
         }
@@ -319,14 +261,14 @@ public class Game {
 
     public void displayAlive() {
         int count = 0;
-        for (Player player : getPlayers().values()) {
+        for (Player player : this.getPlayers().values()) {
             if (player.isAlive()) {
                 count++;
             }
         }
         int numberOfAlive = count;
         StringBuilder s = new StringBuilder(count + " players are remaining: ");
-        for (Player player : getPlayers().values()) {
+        for (Player player : this.getPlayers().values()) {
             if (player.isAlive()) {
                 if (count == 1) {
                     s.append(" and ").append(player.getName());
@@ -338,12 +280,11 @@ public class Game {
                 count--;
             }
         }
-//        s.insert(0, numberOfAlive);
         System.out.println(s + " are alive.");
     }
 
     public void displayHP() {
-        for (Player player : getPlayers().values()) {
+        for (Player player : this.getPlayers().values()) {
             if (player.isAlive()) {
                 System.out.println(player.getName() + " " + player.getHealthPoints());
             }
@@ -356,9 +297,9 @@ public class Game {
         this.preVote();
         System.out.println("--End of Actions--");
         int noDeath = -1;
-        for (Integer i : getPlayers().keySet()) {
-            Player player = getPlayers().get(i);
-            if (!getMafiaController().hasPlayer(i)) {
+        for (Integer i : this.getPlayers().keySet()) {
+            Player player = this.getPlayers().get(i);
+            if (!this.getMafiaController().hasPlayer(i)) {
                 if (player.getHealthPoints() == 0 && player.isAlive()) {
                     System.out.println(player.getName() + " has died.");
                     noDeath = i;
@@ -376,45 +317,20 @@ public class Game {
             }
         }
         int toRemove;
-        if (getDetectiveController().isHasUser() && getToVote() != -1) {
-            toRemove = getToVote();
+        if (this.getDetectiveController().isHasUser() && this.getToVote() != -1) {
+            toRemove = this.getToVote();
         } else {
             toRemove = this.vote();
         }
-        System.out.println(getPlayers().get(toRemove).toString() + " was voted out.");
+        System.out.println(this.getPlayers().get(toRemove).toString() + " was voted out.");
         this.displayHP();
         return this.removePlayerFromGame(toRemove);
     }
 
-//    public HashMap<String, Integer> numberOfAlive(){
-//        HashMap<String, Integer> alive = new HashMap<>();
-//        alive.put("Mafia", 0);
-//        alive.put("Detective", 0);
-//        alive.put("Commoner", 0);
-//        alive.put("Healer", 0);
-//        for(Player player: players.values()){
-//            if(player.isAlive()){
-//                if(player.getClass() == Mafia.class){
-//                    alive.replace("Mafia", alive.get("Mafia") + 1);
-//                }
-//                else if(player.getClass() == Detective.class){
-//                    alive.replace("Detective", alive.get("Detective") + 1);
-//                }
-//                else if(player.getClass() == Healer.class){
-//                    alive.replace("Healer", alive.get("Healer") + 1);
-//                }
-//                else if(player.getClass() == Commoner.class){
-//                    alive.replace("Commoner", alive.get("Commoner") + 1);
-//                }
-//            }
-//        }
-//        return alive;
-//    }
-
     public int checkGameEnd() {
-        if (getMafiaController().numberOfAlive() == 0) {
+        if (this.getMafiaController().numberOfAlive() == 0) {
             return 1;
-        } else if (getMafiaController().numberOfAlive() >= getDetectiveController().numberOfAlive() + getHealerController().numberOfAlive() + getCommonerController().numberOfAlive()) {
+        } else if (this.getMafiaController().numberOfAlive() >= this.getDetectiveController().numberOfAlive() + this.getHealerController().numberOfAlive() + this.getCommonerController().numberOfAlive()) {
             return 2;
         } else {
             return 0;
@@ -422,10 +338,10 @@ public class Game {
     }
 
     public void displayPlayers() {
-        getMafiaController().displayPlayers("Mafia");
-        getDetectiveController().displayPlayers("Detective");
-        getHealerController().displayPlayers("Healer");
-        getCommonerController().displayPlayers("Commoner");
+        this.getMafiaController().displayPlayers("Mafia");
+        this.getDetectiveController().displayPlayers("Detective");
+        this.getHealerController().displayPlayers("Healer");
+        this.getCommonerController().displayPlayers("Commoner");
     }
 
     public void playGame() {

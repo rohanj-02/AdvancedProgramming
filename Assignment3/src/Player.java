@@ -1,16 +1,14 @@
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
-abstract public class Player implements Cloneable {
+abstract public class Player implements Cloneable, Comparable<Player> {
     private final String name;
     private final boolean isUser;
     private int healthPoints;
     private boolean isAlive;
+    private final int ID;
 
     public Player(String name, int INITIAL_HP) {
-        this(name, false, INITIAL_HP);
+        this(name,  false, INITIAL_HP);
     }
 
     public Player(String name, boolean isUser, int INITIAL_HP) {
@@ -18,8 +16,13 @@ abstract public class Player implements Cloneable {
         this.setAlive(true);
         this.name = name;
         this.isUser = isUser;
+        String temp = name.substring(6);
+        this.ID = Integer.parseInt(temp);
     }
 
+    public int getID() {
+        return ID;
+    }
 
     public String getName() {
         return name;
@@ -51,38 +54,40 @@ abstract public class Player implements Cloneable {
         }
     }
 
-    public int getIntegerInputInRange(ArrayList<Integer> range, String inputMsg, String errorMsg) {
-        Scanner s = new Scanner(System.in);
-        boolean flag = true;
-        int input = 0;
-        do {
-            System.out.println(inputMsg);
-            try {
-                input = Integer.parseInt(s.next());
-                for (Integer i : range) {
-                    if (input == i) {
-                        flag = false;
-                        break;
-                    }
-                }
-                if (flag) {
-                    System.out.println(errorMsg);
-                }
-            } catch (InputMismatchException | NumberFormatException e) {
-                System.out.println("That was not a number.  Please try again.");
-                flag = true;
-            }
-        } while (flag);
-        return input;
+    @Override
+    public String toString() {
+        return "Player{" +
+                "healthPoints=" + getHealthPoints() +
+                ", name='" + getName() + '\'' +
+                ", isAlive=" + isAlive() +
+                ", isUser=" + isUser() +
+                '}';
     }
 
+    @Override
+    public int compareTo(Player obj){
+        return this.getHealthPoints() - obj.getHealthPoints();
+    }
+
+    @Override
+    public Player clone() {
+        try {
+            return (Player) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 
     public int vote(Set<Integer> playerKeys) {
         ArrayList<Integer> playerIDs = new ArrayList<>(playerKeys);
         if (this.isUser()) {
             String inputMsg = "Select a player to vote out: ";
-            String errorMsg = "The selected player does not exist!";
-            return this.getIntegerInputInRange(playerIDs, inputMsg, errorMsg);
+            String errorMsg = "The selected player does not exist or is already dead!\n";
+            String errorMsgInKeys = "You cannot vote yourself!\n";
+            IntegerInput in = new IntegerInput();
+            HashSet<Integer> temp = new HashSet<>();
+            temp.add(this.getID());
+            return in.getIntegerInputInRange(playerIDs, temp, inputMsg, errorMsg, errorMsgInKeys);
         } else {
             int max = playerIDs.size();
             return playerIDs.get((int) (Math.random() * max));
@@ -104,28 +109,9 @@ abstract public class Player implements Cloneable {
             System.out.println("Error: Cannot decrease HP by a negative number");
         }
     }
-//    abstract public int specialVote(ArrayList<Player> playerArrayList, ArrayList<Player> specialList);
-
-    public Player clone() {
-        try {
-            return (Player) super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
-    }
 
     public void kill() {
         this.setAlive(false);
         this.setHealthPoints(0);
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "healthPoints=" + getHealthPoints() +
-                ", name='" + getName() + '\'' +
-                ", isAlive=" + isAlive() +
-                ", isUser=" + isUser() +
-                '}';
     }
 }

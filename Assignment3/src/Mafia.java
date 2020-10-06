@@ -2,10 +2,6 @@ import java.util.HashMap;
 
 public class Mafia extends Player {
 
-    //    @Override
-//    public int specialVote(ArrayList<Player> playerList, ArrayList<Player> mafiaList) {
-//        return this.vote(playerList);
-//    }
     private final static int INITIAL_HP = 2500;
 
     public Mafia(String name) {
@@ -36,12 +32,25 @@ public class Mafia extends Player {
         do {
             int healthPerMafia = HP / numberOfNonZero;
             int overflow = HP;
-
-            for (Mafia mafiaPlayer : playerList.values()) {
-                if (mafiaPlayer.getHealthPoints() != 0) {
-                    int damage = mafiaPlayer.targetDamage(healthPerMafia);
-                    totalDamage += damage;
-                    overflow -= damage;
+            if(HP < numberOfNonZero){
+                for(Mafia mafiaPlayer: playerList.values()){
+                    if(totalDamage < initialHP){
+                        int damage = mafiaPlayer.targetDamage(1);
+                        totalDamage += damage;
+                        overflow -= damage;
+                    }
+                    else if(totalDamage >= initialHP){
+                        break;
+                    }
+                }
+            }
+            else{
+                for (Mafia mafiaPlayer : playerList.values()) {
+                    if (mafiaPlayer.getHealthPoints() != 0) {
+                        int damage = mafiaPlayer.targetDamage(healthPerMafia);
+                        totalDamage += damage;
+                        overflow -= damage;
+                    }
                 }
             }
             numberOfNonZero = 0;
@@ -73,9 +82,7 @@ public class Mafia extends Player {
                 '}';
     }
 
-    //    @Override
     public int targetDamage(int amount) {
-        //returns damage done
         if (amount <= this.getHealthPoints()) {
             this.decreaseHealthPoints(amount);
             return amount;

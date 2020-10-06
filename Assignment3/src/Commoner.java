@@ -12,10 +12,6 @@ public class Commoner extends Player {
     public static int getInitialHp() {
         return INITIAL_HP;
     }
-//    @Override
-//    public int specialVote(ArrayList<Player> playerArrayList, ArrayList<Player> specialList) {
-//        return 0;
-//    }
 
     @Override
     public String toString() {
