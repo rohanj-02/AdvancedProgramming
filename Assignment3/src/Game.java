@@ -9,7 +9,7 @@ public class Game {
     private final Controller<Healer> HealerController;
     private final Controller<Detective> DetectiveController;
     private final Controller<Commoner> CommonerController;
-    private final HashMap<Integer, Player> players;
+    private final TreeMap<Integer, Player> players;
 
     private int toHeal;
     private int toKill;
@@ -18,7 +18,7 @@ public class Game {
     private int userID;
 
     public Game() {
-        this.players = new HashMap<>();
+        this.players = new TreeMap<>();
         this.MafiaController = new Controller<>();
         this.HealerController = new Controller<>();
         this.DetectiveController = new Controller<>();
@@ -45,7 +45,7 @@ public class Game {
         return CommonerController;
     }
 
-    public HashMap<Integer, Player> getPlayers() {
+    public TreeMap<Integer, Player> getPlayers() {
         return players;
     }
 
@@ -90,7 +90,7 @@ public class Game {
     }
 
     private <T extends Player> void setController(ArrayList<Integer> randomSequence, int startIndex, int numberOfEntries, boolean hasUser, Controller<T> control, Class<? extends Player> tclass) {
-        HashMap<Integer, T> group = new HashMap<>();
+        TreeMap<Integer, T> group = new TreeMap<>();
         for (int i = startIndex; i < startIndex + numberOfEntries; i++) {
             int index = randomSequence.get(i);
             try {
@@ -141,9 +141,9 @@ public class Game {
         this.setController(randomSequence, numMafia + numDetectives, numHealers, userChoice == 3, this.getHealerController(), Healer.class);
         this.setController(randomSequence, numberOfPlayers - numCommoners, numCommoners, userChoice == 4, this.getCommonerController(), Commoner.class);
 
-        for (Player p : this.getPlayers().values()) {
-            System.out.println(p);
-        }
+//        for (Player p : this.getPlayers().values()) {
+//            System.out.println(p);
+//        }
 
         if (this.getMafiaController().isHasUser()) {
             this.getMafiaController().displayOtherPlayers(this.getUserID(), "mafia");
@@ -238,13 +238,14 @@ public class Game {
                 count = 1;
             } else {
                 System.out.println("Voting tie! Vote in round again.");
+                count++;
             }
-            HashMap<Integer, Integer> votes = new HashMap<>();
+            TreeMap<Integer, Integer> votes = new TreeMap<>();
             for (Integer i : alivePlayers) {
                 votes.put(i, 0);
             }
             for (Integer i : alivePlayers) {
-                Player player = getPlayers().get(i);
+                Player player = this.getPlayers().get(i);
                 HashSet<Integer> available = new HashSet<>(alivePlayers);
                 available.remove(i);
                 int selection = player.vote(available);
@@ -261,7 +262,7 @@ public class Game {
                     numberOfEntry += 1;
                 }
             }
-            if (numberOfEntry == 1) {
+            if (numberOfEntry == 1 || (count >= 10 && numberOfEntry >= 1)) {
                 return maxEntry.getKey();
             }
         } while (true);
@@ -316,7 +317,7 @@ public class Game {
                 }
             }
         }
-        this.displayHP();
+//        this.displayHP();
         if (noDeath == -1) {
             System.out.println("No one died.");
         } else {
@@ -332,7 +333,7 @@ public class Game {
             toRemove = this.vote();
         }
         System.out.println(this.getPlayers().get(toRemove).toString() + " was voted out.");
-        this.displayHP();
+//        this.displayHP();
         return this.removePlayerFromGame(toRemove);
     }
 

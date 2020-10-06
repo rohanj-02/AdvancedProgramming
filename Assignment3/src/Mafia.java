@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class Mafia extends Player {
 
@@ -33,7 +34,7 @@ public class Mafia extends Player {
         }
     }
 
-    public static float decreaseHP(float HP, HashMap<Integer, Mafia> playerList) {
+    public static float decreaseHP(float HP, TreeMap<Integer, Mafia> playerList) {
         boolean flag = true;
         int numberOfNonZero = 0;
         for (Mafia player : playerList.values()) {

@@ -1,21 +1,21 @@
 import java.util.*;
 
 public class Controller<T extends Player> {
-    private HashMap<Integer, T> players;
+    private TreeMap<Integer, T> players;
     private boolean hasUser;
     private int userID;
 
     public Controller() {
-        this.setPlayers(new HashMap<>());
+        this.setPlayers(new TreeMap<>());
         this.setHasUser(false);
         this.setUserID(0);
     }
 
-    public HashMap<Integer, T> getPlayers() {
+    public TreeMap<Integer, T> getPlayers() {
         return players;
     }
 
-    public void setPlayers(HashMap<Integer, T> players) {
+    public void setPlayers(TreeMap<Integer, T> players) {
         this.players = players;
     }
 
@@ -35,8 +35,8 @@ public class Controller<T extends Player> {
         this.hasUser = hasUser;
     }
 
-    public HashMap<Integer, T> getAlivePlayers() {
-        HashMap<Integer, T> returnVal = new HashMap<>();
+    public TreeMap<Integer, T> getAlivePlayers() {
+        TreeMap<Integer, T> returnVal = new TreeMap<>();
         for (Map.Entry<Integer, T> p : this.getPlayers().entrySet()) {
             if (p.getValue().isAlive()) {
                 returnVal.put(p.getKey(), p.getValue());
