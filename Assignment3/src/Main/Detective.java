@@ -1,12 +1,14 @@
-public class Healer extends Player {
+package Main;
+
+public class Detective extends Player {
 
     private final static int INITIAL_HP = 800;
 
-    public Healer(String name) {
+    public Detective(String name) {
         super(name, getInitialHp());
     }
 
-    public Healer(String name, Boolean isUser) {
+    public Detective(String name, Boolean isUser) {
         super(name, isUser, getInitialHp());
     }
 
@@ -15,8 +17,8 @@ public class Healer extends Player {
     }
 
     @Override
-    public Healer clone() {
-        return (Healer) super.clone();
+    public Detective clone() {
+        return (Detective) super.clone();
     }
 
 }

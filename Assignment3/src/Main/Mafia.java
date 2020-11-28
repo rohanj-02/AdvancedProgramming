@@ -1,3 +1,5 @@
+package Main;
+
 import java.util.TreeMap;
 
 public class Mafia extends Player {

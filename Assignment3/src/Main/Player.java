@@ -1,3 +1,5 @@
+package Main;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -59,7 +61,7 @@ abstract public class Player implements Cloneable, Comparable<Player> {
     @Override
     public String toString() {
         // Development
-//        return "Player{" +
+//        return "Main.Player{" +
 //                "healthPoints=" + getHealthPoints() +
 //                ", name='" + getName() + '\'' +
 //                ", isAlive=" + isAlive() +

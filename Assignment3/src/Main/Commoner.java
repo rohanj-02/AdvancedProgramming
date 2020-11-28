@@ -1,3 +1,5 @@
+package Main;
+
 public class Commoner extends Player {
     private final static int INITIAL_HP = 1000;
 
