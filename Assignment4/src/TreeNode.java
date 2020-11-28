@@ -6,12 +6,8 @@ public class TreeNode {
 
 	public TreeNode() {
 		this.data = (int) (Math.random() * 1000000 + 1);
+		System.out.println(this.data);
 		this.children = new ArrayList<>();
-	}
-
-	public TreeNode(int num){
-		this.data = (int) (Math.random() * 1000000 + 1);
-		this.children = new ArrayList<>(num);
 	}
 
 	public Integer getData() {
@@ -28,6 +24,10 @@ public class TreeNode {
 
 	public void setChildren(ArrayList<TreeNode> children) {
 		this.children = children;
+	}
+
+	public void traverseForkJoinPool(){
+
 	}
 
 }
